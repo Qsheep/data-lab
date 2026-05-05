@@ -1,22 +1,42 @@
-# Welcome to Chang's WikiScratch
+# Chang Liu – Data Lab
 
-Welcome to my personal 'WikiScratch,' dedicated to documenting engaging topics in data science and machine learning (ML). This webpage serves as my personal repository, and I hope it proves valuable to others as well. Most algorithms are constructed from fundamental mathematical principles and linear algebra, providing insights into the underlying processes.
+Welcome to my **Data Lab**, a collection of projects in data analysis, data visualisation, and geospatial modeling.
 
-## [ML basics](mlBasics.md)
+This site showcases hands-on work built from first principles, 
+with a focus on understanding the underlying mathematics and applying it to real-world data.
 
-While readily available packages exist for most cases, like Principal Component Analysis, I find it more intriguing to implement these algorithms from scratch.
+---
 
-## [Data Visualisation](dataVisualisation.md)
+##  [Geo Analysis](geo.md)
 
-Given the positive feedback on my data visualization skills from peers and colleagues, I will showcase some of my visualizations and explain the techniques behind them.
+Personal projects using GPX data to analyze movement patterns and visualize geospatial data.
 
-## [Statistical Tests](statisticalTests.md)
+---
 
-This section covers both mathematical calculations and the visualization of results.
+##  [Data Visualization](visual.md)
 
-## [Deep Learning](deepLearning.md)
+A collection of visualizations and techniques for exploring and communicating data effectively.
 
-Explore various entertaining deep learning applications, such as neural style transfer, which captivate my interest. Before a full understanding is achieved, these fun examples will be duplicated here as part of my to-study list.
+---
 
-Check out the content pages bundled with this WikiScratch to explore more.
+##  [Statistical Tests](statistics.md)
 
+Implementation and visualization of statistical methods, with a focus on interpretation and practical use.
+
+---
+
+##  [Case Study for data analysis](caseStudy.md)
+
+Core machine learning algorithms implemented from scratch to understand their mathematical foundations.
+
+---
+
+## 💡 About
+
+I am a data analyst and algorithm engineer with a background in geological and hydraulic engineering, 
+working with large datasets, statistical modeling, and machine learning usage in engineering issues.
+
+This lab reflects my approach:  
+→ understand deeply  
+→ build from scratch  
+→ apply to real data
