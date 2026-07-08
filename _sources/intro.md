@@ -1,42 +1,47 @@
 # Chang Liu – Data Lab
 
-Welcome to my **Data Lab**, a collection of projects in data analysis, data visualisation, and geospatial modeling.
+Welcome to my **Data Lab** — a personal knowledge space for machine learning, statistics, data visualization, geospatial analysis, and real-world data case studies.
 
-This site showcases hands-on work built from first principles, 
-with a focus on understanding the underlying mathematics and applying it to real-world data.
-
----
-
-##  [Geo Analysis](geo.md)
-
-Personal projects using GPX data to analyze movement patterns and visualize geospatial data.
+This site documents how I learn, test, and explain data science concepts from first principles:  
+from mathematical intuition, to Python implementation, to practical interpretation.
 
 ---
 
-##  [Data Visualization](visual.md)
+## [ML & Statistics](ml_stat.md)
 
-A collection of visualizations and techniques for exploring and communicating data effectively.
+Foundational concepts in probability, statistics, and machine learning, explained through examples and code.
 
----
-
-##  [Statistical Tests](statistics.md)
-
-Implementation and visualization of statistical methods, with a focus on interpretation and practical use.
+Topics include Bayes, Naive Bayes, Mann–Whitney U, regression, classification, and later my own research methods such as Camp Chain.
 
 ---
 
-##  [Case Study for data analysis](caseStudy.md)
+## [Geo Analysis](geo.md)
 
-Core machine learning algorithms implemented from scratch to understand their mathematical foundations.
+Projects using GPS and geospatial data to analyze movement patterns, coordinate systems, and spatial information.
+
+---
+
+## [Data Visualization](visual.md)
+
+Visualization techniques for exploring, analyzing, and communicating data clearly and effectively.
+
+---
+
+## [Interview Case Studies](caseStudy.md)
+
+Real interview-style case studies covering the full data analysis workflow: data cleaning, visualization, statistical reasoning, modeling, and insight generation.
 
 ---
 
 ## 💡 About
 
-I am a data analyst and algorithm engineer with a background in geological and hydraulic engineering, 
-working with large datasets, statistical modeling, and machine learning usage in engineering issues.
+I am a data analyst and algorithm engineer with a Ph.D. background in geological and hydraulic engineering.
 
-This lab reflects my approach:  
+My work combines large datasets, statistical modeling, machine learning, simulation data, and engineering interpretation.
+
+This lab reflects my approach:
+
 → understand deeply  
 → build from scratch  
+→ explain clearly  
 → apply to real data

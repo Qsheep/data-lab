@@ -1,0 +1,900 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Geo Analysis" href="geo.html"><link rel="prev" title="Detecting Spam Email with Bayes" href="ml_NaiveBayes.html">
+        <link rel="prefetch" href="_static/logo.png" as="image">
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>Mann-Whitney U test - Chang&#39;s Data Lab</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css?v=8c6b312c" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=fea192d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="intro.html"><div class="brand">Chang's Data Lab</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="intro.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Chang's Data Lab</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="ml_stat.html">ML &amp; Statistics</a><input aria-label="Toggle navigation of ML &amp; Statistics" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ml_NaiveBayes.html">Detecting Spam Email with Bayes</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Mann-Whitney U test</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="geo.html">Geo Analysis</a><input aria-label="Toggle navigation of Geo Analysis" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="geo_gps_uppsala.html">Analys av GPS-spår (Uppsala)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="visual.html">Data Visualisation</a><input aria-label="Toggle navigation of Data Visualisation" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="visual_heatMap.html">Heat Map for Customer Transactions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="caseStudy.html">Interview Case study</a><input aria-label="Toggle navigation of Interview Case study" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="cs_Appostrophe.html">Customer purchasing pattern and prediction</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/stat_MannWhitneyU.ipynb" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="mann-whitney-u-test">
+<h1>Mann-Whitney U test<a class="headerlink" href="#mann-whitney-u-test" title="Link to this heading">¶</a></h1>
+<section id="a-real-world-example-from-scratch">
+<h2>A real-world example from scratch<a class="headerlink" href="#a-real-world-example-from-scratch" title="Link to this heading">¶</a></h2>
+</section>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The Mann-Whitney U test is employed to evaluate significant differences between two independent groups. The process entails ranking all data points collectively, irrespective of their group affiliation. Subsequently, the U statistic, which signifies the sum of ranks for one group, is computed. This test is non-parametric, indicating it doesn’t hinge on the assumption of normal distribution. It acts as an alternative to the independent t-test and is known by monikers such as Wilcoxon Rank Sum Test or Wilcoxon–Mann–Whitney test. The following is an illustrative example in a real-world scenario.</p>
+<section id="hypotheses">
+<h3>Hypotheses<a class="headerlink" href="#hypotheses" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Null hypotheses: median1 = median2</p></li>
+<li><p>Alternative hypotheses: median1 ≠ median2</p></li>
+</ul>
+</section>
+<section id="assumptions">
+<h3>Assumptions<a class="headerlink" href="#assumptions" title="Link to this heading">¶</a></h3>
+<p><strong>Independence</strong>: The observations in one group are assumed to be independent of the observations in the other group.</p>
+<p><strong>Ordinal Scale</strong>: The data should be measured on an ordinal scale, which means the values can be ranked. This is necessary because the test is based on the ranks of the observations.</p>
+<p><strong>Random Sampling</strong>: The data should be collected through a random sampling process.</p>
+<p><strong>Equal Shape of Distributions</strong>: The Mann-Whitney U test assumes that the shapes of the distributions for both groups are similar.</p>
+</section>
+<section id="output">
+<h3>Output<a class="headerlink" href="#output" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>U statistics</p></li>
+<li><p>p value</p></li>
+</ul>
+</section>
+<section id="skewness">
+<h3>Skewness<a class="headerlink" href="#skewness" title="Link to this heading">¶</a></h3>
+<p>Pearson’s second coefficient can be used to evaluate the skewness of data.
+Pearson’s second coefficient = 3*(mean - median)/standard deviation</p>
+<ul class="simple">
+<li><p>the skewness is between -0.5 &amp; 0.5, the data are nearly symmetrical.</p></li>
+<li><p>the skewness is between -1 &amp; -0.5 (negative skewed) or between 0.5 &amp; 1(positive skewed), the data are slightly skewed.</p></li>
+<li><p>the skewness is lower than -1 (negative skewed) or greater than 1 (positive skewed), the data are extremely skewed.</p></li>
+</ul>
+</section>
+</section>
+<section id="generate-skewed-data">
+<h2>Generate skewed data<a class="headerlink" href="#generate-skewed-data" title="Link to this heading">¶</a></h2>
+<p>Firstly, let’s generate two skewed data samples. For example, the data in reality can the efficiency (shunt resistance, fill factor, power) of solar cells from test A and test B. The difference between group A and B can be the production machines, supttering material, or substract holders.
+Let’s use Gamma distribution to simulate the efficiencies of solar cells. The probability density for the Gamma distribution is as follows:</p>
+<div class="math-wrapper amsmath docutils container" id="equation-d4f2e4a6-378a-46de-a6e6-08329d5b60d7">
+<div class="amsmath math notranslate nohighlight" id="equation-d4f2e4a6-378a-46de-a6e6-08329d5b60d7">
+<span class="eqno">(1)<a class="headerlink" href="#equation-d4f2e4a6-378a-46de-a6e6-08329d5b60d7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+      p(x) = x^{k-1}\frac{e^{-x/\theta}}{\theta^k\Gamma(k)}
+\end{equation}\]</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(k\)</span> is the shape and <span class="math notranslate nohighlight">\(\theta\)</span> the scale,
+and <span class="math notranslate nohighlight">\(\Gamma\)</span> is the Gamma function. Suppose there are 50 samples in each test group.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotly.subplots</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_subplots</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;notebook_connected&quot;</span>
+
+<span class="n">n_sample</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">k</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="c1"># mean and width</span>
+<span class="n">groupA</span> <span class="o">=</span> <span class="mi">18</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n_sample</span><span class="p">)</span> <span class="c1"># Generate data for group A</span>
+<span class="n">groupB</span> <span class="o">=</span> <span class="mi">17</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">standard_gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">n_sample</span><span class="p">)</span> <span class="c1"># Generate data from group B</span>
+
+<span class="c1"># Display data</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shared_xaxes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">horizontal_spacing</span><span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> 
+<span class="c1"># The first chart display the data itself, the second one show the distribution.</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">groupA</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;groupA&#39;</span><span class="p">,</span> <span class="n">marker_color</span> <span class="o">=</span> <span class="s1">&#39;rgba(255, 127, 14, 0.4)&#39;</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;rgb(255, 127, 14)&#39;</span><span class="p">,</span>
+                     <span class="n">boxpoints</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">jitter</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">pointpos</span><span class="o">=-</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">row</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Box</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">groupB</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;groupB&#39;</span><span class="p">,</span> <span class="n">marker_color</span> <span class="o">=</span> <span class="s1">&#39;rgba(148, 103, 189, 0.4)&#39;</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;rgb(148, 103, 189)&#39;</span><span class="p">,</span>
+                     <span class="n">boxpoints</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">jitter</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">pointpos</span><span class="o">=-</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">row</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">groupA</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;groupA&#39;</span><span class="p">,</span> <span class="n">xbins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;probability density&#39;</span><span class="p">,</span>
+                           <span class="n">marker_line_color</span> <span class="o">=</span> <span class="s1">&#39;rgb(255, 127, 14)&#39;</span><span class="p">,</span> <span class="n">marker_color</span> <span class="o">=</span> <span class="s1">&#39;rgba(255, 127, 14, 0.4)&#39;</span><span class="p">,</span>
+                           <span class="n">marker_line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">groupB</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;groupB&#39;</span><span class="p">,</span> <span class="n">xbins</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;probability density&#39;</span><span class="p">,</span>
+                           <span class="n">marker_line_color</span> <span class="o">=</span> <span class="s1">&#39;rgb(148, 103, 189)&#39;</span><span class="p">,</span> <span class="n">marker_color</span> <span class="o">=</span> <span class="s1">&#39;rgba(148, 103, 189, 0.4)&#39;</span><span class="p">,</span>
+                           <span class="n">marker_line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Add probability curve</span>
+<span class="n">xA</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">groupA</span><span class="p">)</span>
+<span class="n">xB</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">groupB</span><span class="p">)</span>
+<span class="n">xA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xA</span><span class="p">)</span>
+<span class="n">xB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xB</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pdf_gamma</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">/</span><span class="n">theta</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">sps</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">theta</span><span class="o">**</span><span class="n">k</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">y</span>
+<span class="n">yA</span> <span class="o">=</span> <span class="n">pdf_gamma</span><span class="p">(</span><span class="mi">18</span> <span class="o">-</span> <span class="n">xA</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+<span class="n">yB</span> <span class="o">=</span> <span class="n">pdf_gamma</span><span class="p">(</span><span class="mi">17</span><span class="o">-</span><span class="n">xB</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xA</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yA</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;groupA&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgb(255, 127, 14)&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">dash</span><span class="o">=</span><span class="s1">&#39;solid&#39;</span><span class="p">))</span>
+              <span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xB</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yB</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;groupB&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;rgb(148, 103, 189)&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">dash</span><span class="o">=</span><span class="s1">&#39;dash&#39;</span><span class="p">))</span>
+              <span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Overlay both histograms</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Efficiency samples and distributions for two groups&#39;</span><span class="p">,</span>
+                  <span class="n">xaxis2</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Efficiency&quot;</span><span class="p">),</span> <span class="n">autosize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;overlay&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">margin</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">        <script>
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.5.0.min"</script>
+        </div><div class="output text_html"><div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="d467bb71-1513-4b87-bbbe-28ffa30d2144" class="plotly-graph-div" style="height:300px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("d467bb71-1513-4b87-bbbe-28ffa30d2144")) {                    Plotly.newPlot(                        "d467bb71-1513-4b87-bbbe-28ffa30d2144",                        [{"boxpoints":"all","jitter":0.3,"line":{"color":"rgb(255, 127, 14)","width":1},"marker":{"color":"rgba(255, 127, 14, 0.4)"},"name":"groupA","pointpos":-1.8,"showlegend":false,"x":{"dtype":"f8","bdata":"9JDPfvHVLkBbuqw1znUuQCLh2lme2C1AppqqckPdMEBorV6KVz8xQErB4f\u002fPAzFAoG58NumgMEBnKEXrwskvQHFpujotNjFA62mkvyUNLkDp5FEQMIoxQGZfYOJzcS1AV6anH2YUMUA13n8nYvkvQBHEJFuSLjBAsimVqR2NMECimkvpdBoxQIEi0z4Zpi9Afhc5ybKhMEAbDKZG198wQOYgLU2FHjBAGTjmH3iIMUDeqjwiHyoxQAZdfN5GDjBAzKB3sp9JMEDsYbOXSeEtQILD5hIAmDBADYHgLXEYL0DSsA6MS30wQFUiykEgMTBACwO4pPrNL0Cco1XInsQvQMWWtgEgkzFAfxXJddSUMECr8PEeUwAxQJCTc+0+njBAvvU8XRHAMECFh\u002fcEJWopQO8Xj9\u002fHeTFAWEvoAGteMUB4340JV+MwQPtcBTR6JjFADMywUvckMUA0wTxAhB0xQIwWsCBHoTBAwpC05lGHLEAhbcm5c1IuQHdYSzv2my9An1051oOuMEAk0226J3kuQA=="},"type":"box","xaxis":"x","yaxis":"y"},{"boxpoints":"all","jitter":0.3,"line":{"color":"rgb(148, 103, 189)","width":1},"marker":{"color":"rgba(148, 103, 189, 0.4)"},"name":"groupB","pointpos":-1.8,"showlegend":false,"x":{"dtype":"f8","bdata":"cHFdf81gK0Cg40Wor4wuQGNLgNOwTClAceFvkJSjL0C0IHzbKqstQPE6KGp2bzBAiwFnGGzkLEDsEqRj5+IpQF7RmIQ\u002foS1A8djISIgALUDDXgg9A8gwQLfxIdpyxilArwvxQsj3L0DUMLah+CEuQCWE9WtRei5A95RPN6okMEBXMzQ8Sk0uQDsC4h+\u002fSi9AjnNmrCzrL0BaG6nF6E8wQJS4MSIadSNAklwGBJ7lLUDsfScYmUUtQA+1sgxetS5A\u002fqXgbKsIMECNl2MoQeAwQEIj\u002fDHL6SdAWp6dbsu7LUDwDCbbZ4gvQKxuR0LtHy9AXrxUybNNL0DV3LeoL9cuQAWGvSVJWCxAWH\u002fgZHGgMECC5YUr7zctQLDJBA1jaDBAajUFRBszLEBk\u002fNg8VEcwQJASktlv5S9ANBGjyEV1JkCCU9EmUBIwQAPfhMA\u002fKDBAQ+dmaVthMECAbIRFfi8wQEXvR+UlLi9AF2Ijbp7YLECtzJqUZnEvQO8Hl9hagy1AODwMPjViLkCkD+3lYEsrQA=="},"type":"box","xaxis":"x","yaxis":"y"},{"histnorm":"probability density","marker":{"color":"rgba(255, 127, 14, 0.4)","line":{"color":"rgb(255, 127, 14)","width":1}},"name":"groupA","x":{"dtype":"f8","bdata":"9JDPfvHVLkBbuqw1znUuQCLh2lme2C1AppqqckPdMEBorV6KVz8xQErB4f\u002fPAzFAoG58NumgMEBnKEXrwskvQHFpujotNjFA62mkvyUNLkDp5FEQMIoxQGZfYOJzcS1AV6anH2YUMUA13n8nYvkvQBHEJFuSLjBAsimVqR2NMECimkvpdBoxQIEi0z4Zpi9Afhc5ybKhMEAbDKZG198wQOYgLU2FHjBAGTjmH3iIMUDeqjwiHyoxQAZdfN5GDjBAzKB3sp9JMEDsYbOXSeEtQILD5hIAmDBADYHgLXEYL0DSsA6MS30wQFUiykEgMTBACwO4pPrNL0Cco1XInsQvQMWWtgEgkzFAfxXJddSUMECr8PEeUwAxQJCTc+0+njBAvvU8XRHAMECFh\u002fcEJWopQO8Xj9\u002fHeTFAWEvoAGteMUB4340JV+MwQPtcBTR6JjFADMywUvckMUA0wTxAhB0xQIwWsCBHoTBAwpC05lGHLEAhbcm5c1IuQHdYSzv2my9An1051oOuMEAk0226J3kuQA=="},"xbins":{"size":0.3},"type":"histogram","xaxis":"x2","yaxis":"y2"},{"histnorm":"probability density","marker":{"color":"rgba(148, 103, 189, 0.4)","line":{"color":"rgb(148, 103, 189)","width":1}},"name":"groupB","x":{"dtype":"f8","bdata":"cHFdf81gK0Cg40Wor4wuQGNLgNOwTClAceFvkJSjL0C0IHzbKqstQPE6KGp2bzBAiwFnGGzkLEDsEqRj5+IpQF7RmIQ\u002foS1A8djISIgALUDDXgg9A8gwQLfxIdpyxilArwvxQsj3L0DUMLah+CEuQCWE9WtRei5A95RPN6okMEBXMzQ8Sk0uQDsC4h+\u002fSi9AjnNmrCzrL0BaG6nF6E8wQJS4MSIadSNAklwGBJ7lLUDsfScYmUUtQA+1sgxetS5A\u002fqXgbKsIMECNl2MoQeAwQEIj\u002fDHL6SdAWp6dbsu7LUDwDCbbZ4gvQKxuR0LtHy9AXrxUybNNL0DV3LeoL9cuQAWGvSVJWCxAWH\u002fgZHGgMECC5YUr7zctQLDJBA1jaDBAajUFRBszLEBk\u002fNg8VEcwQJASktlv5S9ANBGjyEV1JkCCU9EmUBIwQAPfhMA\u002fKDBAQ+dmaVthMECAbIRFfi8wQEXvR+UlLi9AF2Ijbp7YLECtzJqUZnEvQO8Hl9hagy1AODwMPjViLkCkD+3lYEsrQA=="},"xbins":{"size":0.3},"type":"histogram","xaxis":"x2","yaxis":"y2"},{"line":{"color":"rgb(255, 127, 14)","dash":"solid","width":1.5},"mode":"lines","name":"groupA","x":{"dtype":"f8","bdata":"hYf3BCVqKUDCkLTmUYcsQGZfYOJzcS1AIuHaWZ7YLUDsYbOXSeEtQOtppL8lDS5AIW3JuXNSLkBbuqw1znUuQCTTbboneS5A9JDPfvHVLkANgeAtcRgvQHdYSzv2my9AgSLTPhmmL0Cco1XInsQvQGcoRevCyS9ACwO4pPrNL0A13n8nYvkvQAZdfN5GDjBA5iAtTYUeMEARxCRbki4wQFUiykEgMTBAzKB3sp9JMEDSsA6MS30wQLIplakdjTBAfxXJddSUMECCw+YSAJgwQJCTc+0+njBAoG58NumgMECMFrAgR6EwQH4XOcmyoTBAn1051oOuMEC+9TxdEcAwQKaaqnJD3TBAGwymRtffMEB4340JV+MwQKvw8R5TADFASsHh\u002f88DMUBXpqcfZhQxQKKaS+l0GjFANME8QIQdMUAMzLBS9yQxQPtcBTR6JjFA3qo8Ih8qMUBxabo6LTYxQGitXopXPzFAWEvoAGteMUDvF4\u002ffx3kxQBk45h94iDFA6eRREDCKMUDFlrYBIJMxQA=="},"y":{"dtype":"f8","bdata":"ED0QZmdAmz+TroH1l9C2P4NEjxZtob8\u002f\u002fBkKqx8owj8upouoel3CP9QjPViXcsM\u002fvqZoxdFAxT\u002fkd4Le\u002fDfGP8LosLrMT8Y\u002frEPc0aT9yD9F6LqahAbLP1ry8o\u002fcR88\u002fhVfX5lKezz\u002fha9aYDVLQP8t\u002fMNAwaNA\u002fhtXAJF560D+wVnRBAzbRP\u002fzzpkJCztE\u002fqPcz\u002f1pa0j8EDp9Gm+PSP4n7Ts9K+dI\u002fpLvXaC\u002fG0z+6A+CCO1jVP\u002fBiLo7FxtU\u002fUqIT0ND51T8mfG5YMg7WP7RAHOtDNdY\u002fBGITY3tF1j+xoW4xsUfWP508Qxo4StY\u002fuif7uK2T1j9vTivW7evWP4da5H2fWNc\u002f+Ow7iZRf1z\u002fXvAXmRGjXP3NzMfhUi9c\u002fsN67ZKmK1z+oZfJ3J3fXPyqfOOTXaNc\u002ffi5Icw5g1z+ZWXLkG0bXP2cAqJUIQNc\u002fr6Wi2zgw1z9PaWEZue\u002fWP6MgUbdhsdY\u002fqXIGrit91T8YLICIEd3TP4bDNtECvNI\u002fxi+Vr+WW0j9KjH8AIsrRPw=="},"type":"scatter","xaxis":"x2","yaxis":"y2"},{"line":{"color":"rgb(148, 103, 189)","dash":"dash","width":1.5},"mode":"lines","name":"groupB","x":{"dtype":"f8","bdata":"lLgxIhp1I0A0EaPIRXUmQEIj\u002fDHL6SdAY0uA07BMKUC38SHacsYpQOwSpGPn4ilApA\u002ft5WBLK0BwcV1\u002fzWArQGo1BUQbMyxABYa9JUlYLEAXYiNuntgsQIsBZxhs5CxA8djISIgALUCC5YUr7zctQOx9JxiZRS1A7weX2FqDLUBe0ZiEP6EtQLQgfNsqqy1AWp6dbsu7LUCSXAYEnuUtQNQwtqH4IS5AVzM0PEpNLkA4PAw+NWIuQCWE9WtRei5AoONFqK+MLkAPtbIMXrUuQNXct6gv1y5ArG5HQu0fL0BF70flJS4vQDsC4h+\u002fSi9AXrxUybNNL0CtzJqUZnEvQPAMJttniC9AceFvkJSjL0CQEpLZb+UvQI5zZqws6y9ArwvxQsj3L0D+peBsqwgwQIJT0SZQEjBA95RPN6okMEAD34TAPygwQIBshEV+LzBAZPzYPFRHMEBaG6nF6E8wQEPnZmlbYTBAsMkEDWNoMEDxOihqdm8wQFh\u002f4GRxoDBAw14IPQPIMECNl2MoQeAwQA=="},"y":{"dtype":"f8","bdata":"LTppyK+0dD8rzYxhJGuSP9ydPooIqaA\u002fq6VWtse9rD86qPhJcjuxP4JqlhSJ+LE\u002f1u2FQaAHvj9PckCnFuy+PwAxW7cTbMQ\u002fV0+FZBRpxT\u002fQmxrhJRLJP+Va3wwSbck\u002f\u002fe6NUZlIyj+Xrz\u002fh4QTMP+08Cx2mdMw\u002fRJStMy53zj8Q0RH16nTPPwVnd+2nyc8\u002f54b5+hos0D+Gv0uUdeDQPz\u002fOdNOs5dE\u002fCKVQTQSg0j9TwXwEG\u002fnSP1eTTd20XtM\u002fA7wcoiCr0z+7TtXJclDUPzKbfhOU1NQ\u002fc+iqzNjZ1T96dPx\u002fRwjWP1zGfd3+X9Y\u002f\u002f8pSZJho1j8RG2OawcjWP9B\u002f1GJn\u002ftY\u002fLAE5VDI01z9SPQoPgIPXP9DNG+d7htc\u002f7SlFlJGK1z9r9cQnzYfXP\u002f\u002fB3sMoe9c\u002fz6ecWUlH1z95cpeqjTjXP9lbCILYFdc\u002fNmwzzANx1j+WZ2+DziDWPxHLMkR5V9U\u002foS\u002fT4L321D9B\u002fX\u002fNqYvUPwoIPyqActA\u002fe+BtH6J+xj\u002fpQ+gSDAu8Pw=="},"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"matches":"x2","showticklabels":false},"yaxis":{"anchor":"x","domain":[0.515,1.0]},"xaxis2":{"anchor":"y2","domain":[0.0,1.0],"title":{"text":"Efficiency"}},"yaxis2":{"anchor":"x2","domain":[0.0,0.485]},"margin":{"l":20,"r":2,"t":50,"b":2},"title":{"text":"Efficiency samples and distributions for two groups"},"autosize":true,"barmode":"overlay","height":300},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('d467bb71-1513-4b87-bbbe-28ffa30d2144');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div></div></div>
+</div>
+</section>
+<section id="step-by-step-case-study">
+<h2>Step by step case study<a class="headerlink" href="#step-by-step-case-study" title="Link to this heading">¶</a></h2>
+<section id="step-1-combine-data-and-calculate-ranks-for-both-groups">
+<h3>Step 1: Combine data and calculate ranks for both groups<a class="headerlink" href="#step-1-combine-data-and-calculate-ranks-for-both-groups" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_AB</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;groupA&#39;</span><span class="p">:</span> <span class="n">groupA</span><span class="p">,</span> <span class="s1">&#39;groupB&#39;</span><span class="p">:</span> <span class="n">groupB</span><span class="p">})</span>
+<span class="c1"># Reshape df_AB into long format</span>
+<span class="n">df_AB2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df_AB</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;groupA&#39;</span><span class="p">,</span> <span class="s1">&#39;groupB&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Group&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Eff&#39;</span><span class="p">)</span>
+<span class="n">df_AB3</span> <span class="o">=</span> <span class="n">df_AB2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_AB3</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;Rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;Eff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-calculate-the-rank-sums-respectively-for-a-and-b">
+<h3>Step 2: Calculate the rank sums respectively for A and B<a class="headerlink" href="#step-2-calculate-the-rank-sums-respectively-for-a-and-b" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cate_names</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span> <span class="c1"># list group names</span>
+<span class="n">rankSum</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">])[</span><span class="s1">&#39;Rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rankSum</span><span class="p">)</span>
+<span class="p">[</span><span class="n">rankSumA</span><span class="p">,</span> <span class="n">rankSumB</span><span class="p">]</span> <span class="o">=</span> <span class="n">rankSum</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Group
+groupA    3265.0
+groupB    1785.0
+Name: Rank, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-calculate-the-u-values">
+<h3>Step 3: Calculate the U-values<a class="headerlink" href="#step-3-calculate-the-u-values" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">nA</span><span class="p">,</span> <span class="n">nB</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">])[</span><span class="s1">&#39;Rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">U_A</span> <span class="o">=</span> <span class="n">nA</span><span class="o">*</span><span class="n">nB</span> <span class="o">+</span> <span class="n">nA</span><span class="o">*</span><span class="p">(</span><span class="n">nA</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">rankSumA</span>
+<span class="n">U_B</span> <span class="o">=</span> <span class="n">nA</span><span class="o">*</span><span class="n">nB</span> <span class="o">+</span> <span class="n">nB</span><span class="o">*</span><span class="p">(</span><span class="n">nB</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">rankSumB</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;UA = &#39;</span><span class="p">,</span> <span class="n">U_A</span><span class="p">,</span> <span class="s1">&#39;, UB = &#39;</span><span class="p">,</span> <span class="n">U_B</span><span class="p">)</span>
+<span class="n">U_Wert</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">U_A</span><span class="p">,</span> <span class="n">U_B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U_Wert = &#39;</span><span class="p">,</span> <span class="n">U_Wert</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UA =  510.0 , UB =  1990.0
+U_Wert =  510.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-check-if-there-are-tied-ranks">
+<h3>Step 4: Check if there are tied ranks<a class="headerlink" href="#step-4-check-if-there-are-tied-ranks" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;IsRankTied&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;Rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;IsRankTied&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IsRankTied
+False    100
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-calculate-the-p-value">
+<h3>Step 5: Calculate the p-value<a class="headerlink" href="#step-5-calculate-the-p-value" title="Link to this heading">¶</a></h3>
+<p>The U statistic is assumed to yield a normal distribution under the null hypothesis in the Mann-Whitney U test. The standardization process (normalising) is often done to facilitate the comparison of the U statistic to a standard normal distribution. The resulting z-value is also approximately normally distributed under the null hypothesis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Expected value of U</span>
+<span class="n">U_ex</span> <span class="o">=</span> <span class="n">nA</span><span class="o">*</span><span class="n">nB</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="c1"># When there is no tied ranks</span>
+<span class="c1"># Standard error of U</span>
+<span class="n">U_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">nA</span><span class="o">*</span><span class="n">nB</span><span class="o">*</span><span class="p">(</span><span class="n">nA</span><span class="o">+</span><span class="n">nB</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># when there are tied ranks</span>
+<span class="c1"># Standard error of U with tie correction</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">ties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;Rank&#39;</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">tieSum</span> <span class="o">=</span> <span class="p">(</span><span class="n">ties</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">ties</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="c1"># this procedure will help detact if the tied-ranks exist.</span>
+<span class="n">U_sigmaTie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span> <span class="p">(</span><span class="n">nA</span><span class="o">*</span><span class="n">nB</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span> <span class="p">(</span><span class="n">nA</span><span class="o">+</span><span class="n">nB</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">tieSum</span><span class="o">/</span><span class="p">((</span><span class="n">nA</span><span class="o">+</span><span class="n">nB</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">nA</span><span class="o">+</span><span class="n">nB</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+
+<span class="c1"># Calculate z-value</span>
+<span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">U_Wert</span> <span class="o">-</span> <span class="n">U_ex</span><span class="p">)</span><span class="o">/</span><span class="n">U_sigma</span>
+
+<span class="c1"># Calculate p-value</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;p-vlaue =&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>p-vlaue = 1.6855128266831024e-07
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a one-tailed hypothesis test, the p-value is 0.001266; for a two-tailed hypothesis test, the p-value should be multiplied by 2, yielding p-value = 0.002532. In both cases, the p-value is below the 5% threshold. Consequently, we reject the null hypothesis asserting that group A and group B share the same distribution. Thus, we conclude that group A and group B in our case are significantly different.</p>
+</section>
+</section>
+<section id="robustness-verification-through-repeated-hypothesis-tests">
+<h2>Robustness Verification Through Repeated Hypothesis Tests<a class="headerlink" href="#robustness-verification-through-repeated-hypothesis-tests" title="Link to this heading">¶</a></h2>
+<p>Nonetheless, a single hypothesis test may lack precision in real-world scenarios due to sampling variability. A pragmatic approach involves conducting repeated hypothesis tests, for instance, 100 times. This allows us to compare the statistical outcomes between hypothesis tests of group A vs. group A (or group B vs. group B) and group A vs. group B.</p>
+<section id="wrap-the-algorithm-to-a-function">
+<h3>Wrap the algorithm to a function<a class="headerlink" href="#wrap-the-algorithm-to-a-function" title="Link to this heading">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mann_whitney_u_test</span><span class="p">(</span><span class="n">groupA</span><span class="p">,</span> <span class="n">groupB</span><span class="p">,</span> <span class="n">tails</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="c1"># Combine groups into a DataFrame</span>
+    <span class="n">df_AB</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;groupA&#39;</span><span class="p">:</span> <span class="n">groupA</span><span class="p">,</span> <span class="s1">&#39;groupB&#39;</span><span class="p">:</span> <span class="n">groupB</span><span class="p">})</span>
+    
+    <span class="c1"># Reshape df_AB into long format</span>
+    <span class="n">df_AB2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">df_AB</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;groupA&#39;</span><span class="p">,</span> <span class="s1">&#39;groupB&#39;</span><span class="p">],</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;Group&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;Eff&#39;</span><span class="p">)</span>
+    <span class="n">df_AB3</span> <span class="o">=</span> <span class="n">df_AB2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">df_AB3</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;Rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;Eff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">()</span>
+    
+    <span class="c1"># Calculate rank sums</span>
+    <span class="n">rankSum</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">])[</span><span class="s1">&#39;Rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">[</span><span class="n">rankSumA</span><span class="p">,</span> <span class="n">rankSumB</span><span class="p">]</span> <span class="o">=</span> <span class="n">rankSum</span>
+    <span class="p">[</span><span class="n">nA</span><span class="p">,</span> <span class="n">nB</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_AB3</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Group&#39;</span><span class="p">])[</span><span class="s1">&#39;Rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    
+    <span class="c1"># Calculate U values</span>
+    <span class="n">U_A</span> <span class="o">=</span> <span class="n">nA</span><span class="o">*</span><span class="n">nB</span> <span class="o">+</span> <span class="n">nA</span><span class="o">*</span><span class="p">(</span><span class="n">nA</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">rankSumA</span>
+    <span class="n">U_B</span> <span class="o">=</span> <span class="n">nA</span><span class="o">*</span><span class="n">nB</span> <span class="o">+</span> <span class="n">nB</span><span class="o">*</span><span class="p">(</span><span class="n">nB</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="n">rankSumB</span>
+    <span class="n">U_Wert</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">U_A</span><span class="p">,</span> <span class="n">U_B</span><span class="p">)</span>
+    
+    <span class="c1"># Expected value of U</span>
+    <span class="n">U_ex</span> <span class="o">=</span> <span class="n">nA</span><span class="o">*</span><span class="n">nB</span><span class="o">/</span><span class="mi">2</span>
+    
+    <span class="c1"># Calculate standard error of U</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">ties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">df_AB3</span><span class="p">[</span><span class="s1">&#39;Rank&#39;</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">tieSum</span> <span class="o">=</span> <span class="p">(</span><span class="n">ties</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">ties</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">U_sigmaTie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">nA</span> <span class="o">*</span> <span class="n">nB</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">nA</span> <span class="o">+</span> <span class="n">nB</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">tieSum</span> <span class="o">/</span> <span class="p">((</span><span class="n">nA</span> <span class="o">+</span> <span class="n">nB</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nA</span> <span class="o">+</span> <span class="n">nB</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))))</span>
+    
+    <span class="c1"># Calculate z-value</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">U_Wert</span> <span class="o">-</span> <span class="n">U_ex</span><span class="p">)</span> <span class="o">/</span> <span class="n">U_sigmaTie</span>
+    
+    <span class="c1"># Calculate p-value</span>
+    <span class="k">if</span> <span class="n">tails</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">p</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="calculate-p-values-for-comparison">
+<h3>Calculate p-values for comparison<a class="headerlink" href="#calculate-p-values-for-comparison" title="Link to this heading">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_values_mannwhitneyu_AA</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">p_values_mannwhitneyu_BB</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">p_values_mannwhitneyu_AB</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">n_test</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">n_sample2</span> <span class="o">=</span> <span class="mi">40</span>  
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_test</span><span class="p">):</span>
+    <span class="c1"># Generate samples for the repeated tests</span>
+    <span class="n">resampleA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">groupA</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_sample2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># set replace to True if bootstrapping is desired in your case.</span>
+    <span class="n">resampleA2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">groupA</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_sample2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">resampleB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">groupB</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_sample2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">resampleB2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">groupB</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_sample2</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the mann whitney u tests for comparsion</span>
+    <span class="n">p_AB</span> <span class="o">=</span> <span class="n">mann_whitney_u_test</span><span class="p">(</span><span class="n">resampleA</span><span class="p">,</span> <span class="n">resampleB</span><span class="p">,</span> <span class="n">tails</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">p_AA</span> <span class="o">=</span> <span class="n">mann_whitney_u_test</span><span class="p">(</span><span class="n">resampleA</span><span class="p">,</span> <span class="n">resampleA2</span><span class="p">,</span> <span class="n">tails</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">p_BB</span> <span class="o">=</span> <span class="n">mann_whitney_u_test</span><span class="p">(</span><span class="n">resampleB</span><span class="p">,</span> <span class="n">resampleB2</span><span class="p">,</span> <span class="n">tails</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># save results</span>
+    <span class="n">p_values_mannwhitneyu_AB</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_AB</span><span class="p">)</span>
+    <span class="n">p_values_mannwhitneyu_AA</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_AA</span><span class="p">)</span>
+    <span class="n">p_values_mannwhitneyu_BB</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_BB</span><span class="p">)</span>
+
+<span class="c1"># Combine and reshape data for plot</span>
+<span class="n">df_combine</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;p-value&#39;</span><span class="p">:</span> <span class="n">p_values_mannwhitneyu_AA</span> <span class="o">+</span> <span class="n">p_values_mannwhitneyu_BB</span> <span class="o">+</span> <span class="n">p_values_mannwhitneyu_AB</span><span class="p">,</span>
+                           <span class="s1">&#39;Comparison&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A vs A&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_test</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;B vs B&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_test</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;A vs B&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_test</span><span class="p">})</span>
+
+<span class="n">df_combine</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>p-value</th>
+      <th>Comparison</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7.727911e-01</td>
+      <td>A vs A</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>6.789874e-01</td>
+      <td>A vs A</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5.603866e-01</td>
+      <td>A vs A</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.099292e-01</td>
+      <td>A vs A</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>9.348009e-01</td>
+      <td>A vs A</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>295</th>
+      <td>2.375191e-07</td>
+      <td>A vs B</td>
+    </tr>
+    <tr>
+      <th>296</th>
+      <td>6.784570e-05</td>
+      <td>A vs B</td>
+    </tr>
+    <tr>
+      <th>297</th>
+      <td>2.305124e-06</td>
+      <td>A vs B</td>
+    </tr>
+    <tr>
+      <th>298</th>
+      <td>1.429301e-06</td>
+      <td>A vs B</td>
+    </tr>
+    <tr>
+      <th>299</th>
+      <td>4.839482e-07</td>
+      <td>A vs B</td>
+    </tr>
+  </tbody>
+</table>
+<p>300 rows × 2 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="show-comparsion-results">
+<h3>Show comparsion results<a class="headerlink" href="#show-comparsion-results" title="Link to this heading">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">plotly_express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="c1"># plot the results in a facet graph</span>
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">make_subplots</span><span class="p">(</span><span class="n">rows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">vertical_spacing</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">horizontal_spacing</span><span class="o">=</span><span class="mf">.02</span><span class="p">,</span> 
+                <span class="n">shared_xaxes</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">shared_yaxes</span><span class="o">=</span> <span class="kc">True</span><span class="p">)</span> 
+<span class="n">batch_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;rgb(31, 119, 180)&#39;</span><span class="p">,</span> <span class="s1">&#39;rgb(255, 127, 14)&#39;</span><span class="p">,</span> <span class="s1">&#39;rgb(44, 160, 44)&#39;</span><span class="p">]</span>
+
+<span class="n">fig2</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">df_combine</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;p-value&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span> <span class="s1">&#39;Comparison&#39;</span><span class="p">,</span>
+                <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;probability&#39;</span><span class="p">,</span> <span class="n">color_discrete_sequence</span> <span class="o">=</span> <span class="n">batch_colors</span><span class="p">,</span>
+                <span class="n">facet_col</span><span class="o">=</span><span class="s2">&quot;Comparison&quot;</span><span class="p">)</span>    
+<span class="n">fig2</span><span class="o">.</span><span class="n">add_vline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>  <span class="n">line_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s2">&quot;dash&quot;</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">&#39;rgb(214, 39, 40)&#39;</span><span class="p">)</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">xbins</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">))</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">for_each_annotation</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span> <span class="s1">&#39;0.05&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">y</span><span class="o">=-</span><span class="mf">0.15</span><span class="p">,</span>  <span class="n">font_color</span><span class="o">=</span> <span class="s1">&#39;rgb(214, 39, 40)&#39;</span><span class="p">,</span>
+                <span class="n">xref</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">yref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span> <span class="s1">&#39;0.05&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">y</span><span class="o">=-</span><span class="mf">0.15</span><span class="p">,</span>  <span class="n">font_color</span><span class="o">=</span> <span class="s1">&#39;rgb(214, 39, 40)&#39;</span><span class="p">,</span>
+                <span class="n">xref</span><span class="o">=</span><span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="n">yref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">add_annotation</span><span class="p">(</span><span class="n">text</span><span class="o">=</span> <span class="s1">&#39;0.05&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">y</span><span class="o">=-</span><span class="mf">0.15</span><span class="p">,</span>  <span class="n">font_color</span><span class="o">=</span> <span class="s1">&#39;rgb(214, 39, 40)&#39;</span><span class="p">,</span>
+                <span class="n">xref</span><span class="o">=</span><span class="s2">&quot;x3&quot;</span><span class="p">,</span> <span class="n">yref</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;Distribution of p-values for comparison&quot;</span><span class="p">,</span> 
+                        <span class="n">height</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="s1">&#39;plotly&#39;</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">bargap</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">margin</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">fig2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="e8bc249e-9b59-4d6d-9fce-0c19fb268fd2" class="plotly-graph-div" style="height:300px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("e8bc249e-9b59-4d6d-9fce-0c19fb268fd2")) {                    Plotly.newPlot(                        "e8bc249e-9b59-4d6d-9fce-0c19fb268fd2",                        [{"bingroup":"x","histnorm":"probability","hovertemplate":"Comparison=A vs A\u003cbr\u003ep-value=%{x}\u003cbr\u003eprobability=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"A vs A","marker":{"color":"rgb(31, 119, 180)","pattern":{"shape":""}},"name":"A vs A","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"VJvbfLS66D\u002fuPorIQ7rlP8qxuPav7uE\u002fQoR3SOHV0z9pg7SA4+ntPxGXFlsqRuo\u002fmrZLGrf+6j8DZa2gjOjnP6JlGBs1LuY\u002fY68vCXhp4z+g7qP7bX7oPzwHloRf9us\u002fvO2\u002f0lCi6j+ljxlHY8DmPxJnF09ENuc\u002fYVmigSSx7D90rWm8qzbhPwNlraCM6Oc\u002fBFHH291k6j\u002fOZA8ukbrYP3\u002fQ5kdzFew\u002fYW3pa4qc5D85xpYMbwTvPwqTSL2hNuE\u002f6AgsX5tL3j+ljxlHY8DmP+DD9zG1GOc\u002fIhWmI14V6T98enygs6DjP7rkXdSLnOg\u002fNHkYaeUj4j\u002fNu35x4tjoP7NxNyzKDu0\u002fiSeQ+Ivg7z8AAAAAAADwPw4\u002fNDaDaOY\u002fKMKOLDLW3z9IBMB3HW\u002fWP3YvwEHLcuw\u002fGpHjdT0J7j\u002f7tjHMjMrtP1NgY\u002f1PTe0\u002fk3V0cBTB6j9hK1\u002fZjDTsPxvxN1f1kew\u002fJjLkZ8u45D83Lskai8rtP2S3l8F3POs\u002fs3E3LMoO7T\u002fS6xkGsU\u002fgPwAAAAAAAPA\u002fYE6YfHG61z+4lR1fjCfqPySVTigWDuU\u002fzbt+ceLY6D9LWEG+N6vtP5rKOmwFaeA\u002fofbs5GsG6D8BpvxWU63pP8OcUNQ9Nuc\u002fezKKPN4j7z\u002f8GVD0PUflP2i6dR5o4dQ\u002f8HGYnVFL5j\u002f4rks3gnHnP9yUAIxhfN4\u002fNy7JGovK7T8UvPMfYVvrP3RU3P9mvOM\u002fwsxQz59t1D+pvlkfmGztP+2exspgYOg\u002ftSGoATNG6j\u002fOzeES8qznPxzadVwpV9s\u002feEWjDTwa2j9KPTj+\u002f0fkP3TPRyMo1OE\u002fAab8VlOt6T\u002fUT7dpGMHqP2ErX9mMNOw\u002fOcaWDG8E7z+utsLHSgniP3NtmyDwD+Q\u002fR6TctvtH7j\u002fUrLJQIPfoP\u002f\u002f3ZJW\u002fYu8\u002fruP09DWr7T8b8TdX9ZHsP0aYRquM7+w\u002fmso6bAVp4D9s3vUgCFLpPxqR43U9Ce4\u002fXl3OAeVj5T+OEyeob53lP8JCkHwdF+M\u002fNycE3fII6j9YQPhwXPbrP44TJ6hvneU\u002fxtZWvncG6D8="},"xaxis":"x","yaxis":"y","type":"histogram","xbins":{"size":0.05,"start":0}},{"bingroup":"x","histnorm":"probability","hovertemplate":"Comparison=B vs B\u003cbr\u003ep-value=%{x}\u003cbr\u003eprobability=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"B vs B","marker":{"color":"rgb(255, 127, 14)","pattern":{"shape":""}},"name":"B vs B","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"9DNBZfpH7j9TYGP9T03tP4X29p6puug\u002fMrIz5+Hp7T8ZgKjRcQboP6JZgLMm1+U\u002fU2Bj\u002fU9N7T9uRgUiZgjVP4xnzSEZQs8\u002fG\u002fE3V\u002fWR7D+ljxlHY8DmPwm\u002fRbrZjuk\u002fwhVKn5Ud6z\u002fGnCt4ZZ\u002fhPyMogXyaKO4\u002faH9gfQ2F4T83Lskai8rtP5SEz1jLPtw\u002fXvUqf5vg4j\u002fRpmI6XmfuP8KnvbdYquI\u002fAAAAAAAA8D9qCWggXYrdP7UhqAEzRuo\u002fNjF6hm5w6T8286bo66znP7QYGlZevOM\u002faYdg\u002fVR66z8wA4qpN8\u002fgP8XFLJhi9us\u002fG\u002fE3V\u002fWR7D+atksat\u002f7qP\u002fUPyTc2R+U\u002fLnDj3aKA5T9X7Oj939\u002fqP\u002fnxlh\u002fmi+0\u002fOQ4rp2Rb6z8BpvxWU63pP5tkMl3uCOo\u002fEAzFicIq3T\u002fuPorIQ7rlP2uenaikoe8\u002fz7TSYsSG7j+oJ3pmH87aP575w5wqj+c\u002fpGbZJDTY4z+gfcFftVDhP0o9OP7\u002fR+Q\u002fyHR+ZU4p2z+SDnYHDC7tP+LLwpMf9OU\u002fdFTc\u002f2a84z9q5mSATUPvP3YHN9irHOE\u002f6EJkri5G6j\u002fa4UXSoeTXP4di+HNfZ+4\u002furhx9z4J7j8Pl1rYF8HvPz7D6686E9c\u002fCDdSYq6c3D\u002fCFUqflR3rP+2exspgYOg\u002f8Cz55l5C6D9tF0QnvbnhP+DD9zG1GOc\u002fEroCkJ4P3z\u002fVuCFfeTLjP575w5wqj+c\u002fil94PEu65T\u002fCzFDPn23UP6m+WR+YbO0\u002ffbfHxWY24D\u002fclACMYXzeP4zMIN1hj9g\u002fDgVFPalT7D98kwDsxw7tP\u002f\u002f3ZJW\u002fYu8\u002fIhNr9Ik07D+AWnl\u002f7KXVP6JZgLMm1+U\u002f2pK\u002fmfgP5D8DZa2gjOjnPzKyM+fh6e0\u002fezKKPN4j7z9ybVw3s8rnPzabTX0ahds\u002fn21FQcOG7j\u002feEvC9XerpP6cXvAyVxe4\u002f8hZdKlj73D\u002fo1C\u002fB3PfSPwNlraCM6Oc\u002fz7TSYsSG7j\u002fPtNJixIbuP\u002fwZUPQ9R+U\u002fzFY1fc72xj8+w+uvOhPXPyrUW6zsY+U\u002f+9BipbuF5j8="},"xaxis":"x2","yaxis":"y2","type":"histogram","xbins":{"size":0.05,"start":0}},{"bingroup":"x","histnorm":"probability","hovertemplate":"Comparison=A vs B\u003cbr\u003ep-value=%{x}\u003cbr\u003eprobability=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"A vs B","marker":{"color":"rgb(44, 160, 44)","pattern":{"shape":""}},"name":"A vs B","orientation":"v","showlegend":true,"x":{"dtype":"f8","bdata":"zdslZ5QB6D7VhpnXd0fGPrlEAk9s2bY+0U7QAjKqez6HxkSx4gzxPgxHfoPUzeA+eZOsSTsw0D4PrPrezPq3Ppqr\u002fmcBRsQ+kMw7\u002fexAxT4MR36D1M3gPvqdU0swxbU+vK0n4OopuT7C7LvAE4USP9wk2Am8WNU+zdslZ5QB6D4HDKjuMkf0PkXAAFUb1qM+dUtTStRm6z51XWUCzzjqPl9+vP0SEL0+lbwuQBkW\u002fz7nmzbPZWe6PgcMqO4yR\u002fQ+uUQCT2zZtj5zhMUykmHiPvqdU0swxbU+GdAasEsuAz8VyfgkvNGyPif6lKSptt4+9ZcMSwzJET9mdINvoUDvPqtiCQXks7s+kE+uETdWwz65RAJPbNm2PjPq2MZq9+Y+55s2z2Vnuj4L4MdJeDSAPk8bG50Qpsk+Ag7Rq56f2T4MY2023L0yP3VLU0rUZus+vK0n4OopuT4\u002fruHJX5PhPliYjGdx4Mo+MHlkWVVBsD5AxVL1qWvzPpBmV6KnfL4+D6z63sz6tz6aq\u002f5nAUbEPih5eLVfGeQ+chaJWdK6Cj\u002fSnc5XjhL3PhpEYBDXzvE+B5KDhCE7+j7FDcBA\u002fsTAPimNvbEvFfg+wlpcVtHZCz9ffrz9EhC9PipuhEOs9K4+DEd+g9TN4D5YmIxnceDKPhR6t5j9mPI+O7JSq8c44z6g4Tp+tDYAPweSg4QhO\u002fo+KY29sS8V+D7C7LvAE4USP50cha6dtao+I\u002fpzDtzHkD48MaCx5GQCPweSg4QhO\u002fo+Vlzh1iCqkT5m\u002f1jgNOrtPhpEYBDXzvE+zdslZ5QB6D4kZBbuWZ0IPxpEYBDXzvE+kE+uETdWwz4wy1gFdV6dPih5eLVfGeQ+68BS089S8D4Os1UNmv2XPvu3FJJEZNc+waQd7c6Y0j7cJNgJvFjVPoDQcuzb\u002fwM\u002fJVEkGK2oBj8HkoOEITv6PsaczCNOMqg+MQ4FiKRrJD\u002fGks4qWqMBPxb1gFYVPaA+WKFc94HQ2j7N2yVnlAHoPsXpj7sX4Y8+9ZcMSwzJET+QT64RN1bDPg+s+t7M+rc+FvWAVhU9oD4="},"xaxis":"x3","yaxis":"y3","type":"histogram","xbins":{"size":0.05,"start":0}}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.31999999999999995],"title":{"text":"p-value"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"probability"}},"xaxis2":{"anchor":"y2","domain":[0.33999999999999997,0.6599999999999999],"matches":"x","title":{"text":"p-value"}},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"matches":"y","showticklabels":false},"xaxis3":{"anchor":"y3","domain":[0.6799999999999999,0.9999999999999999],"matches":"x","title":{"text":"p-value"}},"yaxis3":{"anchor":"x3","domain":[0.0,1.0],"matches":"y","showticklabels":false},"annotations":[{"showarrow":false,"text":"A vs A","x":0.15999999999999998,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"showarrow":false,"text":"B vs B","x":0.49999999999999994,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"showarrow":false,"text":"A vs B","x":0.8399999999999999,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"color":"rgb(214, 39, 40)","size":12},"showarrow":false,"text":"0.05","x":0.05,"xref":"x","y":-0.15,"yref":"paper"},{"font":{"color":"rgb(214, 39, 40)","size":12},"showarrow":false,"text":"0.05","x":0.05,"xref":"x2","y":-0.15,"yref":"paper"},{"font":{"color":"rgb(214, 39, 40)","size":12},"showarrow":false,"text":"0.05","x":0.05,"xref":"x3","y":-0.15,"yref":"paper"}],"legend":{"title":{"text":"Comparison"},"tracegroupgap":0},"margin":{"t":50,"l":20,"r":2,"b":2},"barmode":"relative","shapes":[{"line":{"color":"rgb(214, 39, 40)","dash":"dash","width":1},"type":"line","x0":0.05,"x1":0.05,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"line":{"color":"rgb(214, 39, 40)","dash":"dash","width":1},"type":"line","x0":0.05,"x1":0.05,"xref":"x2","y0":0,"y1":1,"yref":"y2 domain"},{"line":{"color":"rgb(214, 39, 40)","dash":"dash","width":1},"type":"line","x0":0.05,"x1":0.05,"xref":"x3","y0":0,"y1":1,"yref":"y3 domain"}],"title":{"text":"\u003cb\u003eDistribution of p-values for comparison"},"height":300,"showlegend":false,"bargap":0.1},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('e8bc249e-9b59-4d6d-9fce-0c19fb268fd2');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div></div></div>
+</div>
+</section>
+<section id="interpretation">
+<h3>Interpretation<a class="headerlink" href="#interpretation" title="Link to this heading">¶</a></h3>
+<p>If the samples originate from the same distribution, the probability distribution is expected to resemble (A vs A) or (B vs B). However, distinct differences in distribution shapes emerge when comparing (A vs A) or (B vs B) to (A vs B). Consequently, the observed dissimilarities strongly suggest a significant distinction between groupA and groupB.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="geo.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Geo Analysis</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="ml_NaiveBayes.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Detecting Spam Email with Bayes</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Mann-Whitney U test</a><ul>
+<li><a class="reference internal" href="#a-real-world-example-from-scratch">A real-world example from scratch</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#hypotheses">Hypotheses</a></li>
+<li><a class="reference internal" href="#assumptions">Assumptions</a></li>
+<li><a class="reference internal" href="#output">Output</a></li>
+<li><a class="reference internal" href="#skewness">Skewness</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generate-skewed-data">Generate skewed data</a></li>
+<li><a class="reference internal" href="#step-by-step-case-study">Step by step case study</a><ul>
+<li><a class="reference internal" href="#step-1-combine-data-and-calculate-ranks-for-both-groups">Step 1: Combine data and calculate ranks for both groups</a></li>
+<li><a class="reference internal" href="#step-2-calculate-the-rank-sums-respectively-for-a-and-b">Step 2: Calculate the rank sums respectively for A and B</a></li>
+<li><a class="reference internal" href="#step-3-calculate-the-u-values">Step 3: Calculate the U-values</a></li>
+<li><a class="reference internal" href="#step-4-check-if-there-are-tied-ranks">Step 4: Check if there are tied ranks</a></li>
+<li><a class="reference internal" href="#step-5-calculate-the-p-value">Step 5: Calculate the p-value</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#robustness-verification-through-repeated-hypothesis-tests">Robustness Verification Through Repeated Hypothesis Tests</a><ul>
+<li><a class="reference internal" href="#wrap-the-algorithm-to-a-function">Wrap the algorithm to a function</a></li>
+<li><a class="reference internal" href="#calculate-p-values-for-comparison">Calculate p-values for comparison</a></li>
+<li><a class="reference internal" href="#show-comparsion-results">Show comparsion results</a></li>
+<li><a class="reference internal" href="#interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
+</html>
