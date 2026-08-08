@@ -1,0 +1,1853 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="prev" title="Tools" href="../tool.html">
+        <link rel="prefetch" href="../_static/logo.png" as="image">
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>Extract words from YouTube videos - Chang&#39;s Data Lab</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css?v=8c6b312c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=fea192d9" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../intro.html"><div class="brand">Chang's Data Lab</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../intro.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Chang's Data Lab</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ml_stat.html">ML &amp; Statistics</a><input aria-label="Toggle navigation of ML &amp; Statistics" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ml_NaiveBayes.html">Detecting Spam Email with Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../stat_MannWhitneyU.html">Mann-Whitney U test</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../geo.html">Geo Analysis</a><input aria-label="Toggle navigation of Geo Analysis" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../geo_gps_uppsala.html">Analys av GPS-spår (Uppsala)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../visual.html">Data Visualisation</a><input aria-label="Toggle navigation of Data Visualisation" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../visual_heatMap.html">Heat Map for Customer Transactions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../caseStudy.html">Interview Case study</a><input aria-label="Toggle navigation of Interview Case study" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cs_Appostrophe.html">Customer purchasing pattern and prediction</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../tool.html">Tools</a><input aria-label="Toggle navigation of Tools" checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Extract words from YouTube videos</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/tool/tool_transcribe_youtube.ipynb" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="extract-words-from-youtube-videos">
+<h1>Extract words from YouTube videos<a class="headerlink" href="#extract-words-from-youtube-videos" title="Link to this heading">¶</a></h1>
+<p>When learning Swedish independently, children’s educational videos are actually every effective in my case. In the same time, it is important to review one or two times for the purpose of memorising. However, rewatching a long slow video is less convenient and often make poeple lose patience, my strategry is extracting these key words and convert them to illustrational flashcards in my <a class="reference external" href="https://www.ensprakresa.com/">En Språk Resa</a> platform.</p>
+<p>This tutorial converts the speech into text and extracts the example nouns into a reusable table.</p>
+<p>We aim to obtain the final result in two columns:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>letter</p></th>
+<th class="head"><p>word</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>A</p></td>
+<td><p>anka</p></td>
+</tr>
+<tr class="row-odd"><td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This notebook demonstrates two extraction methods:</p>
+<ol class="arabic simple">
+<li><p><strong>Regular expression extraction</strong> — it summarise the moisy trascripts and find the best logics.</p></li>
+<li><p><strong>OpenAI API extraction</strong> — it use ai api to extract infomation that we need.</p></li>
+</ol>
+<p>The workflow is:</p>
+<ul class="simple">
+<li><p>YouTube video
+↓</p></li>
+<li><p>download audio
+↓</p></li>
+<li><p>transcrib Swedish speech automatically by KB-Whisper
+↓</p></li>
+<li><p>timestamped transcript DataFrame
+↓</p></li>
+<li><p>regex extraction  OR  OpenAI API extraction
+↓</p></li>
+<li><p>two-column letter/word DataFrame
+↓</p></li>
+<li><p>CSV file</p></li>
+</ul>
+<p>The example YouTube video is from: https://www.youtube.com/watch?v=pwiyMIFLDpg</p>
+<section id="create-and-activate-a-python-environment">
+<h2>1. 🍀 Create and activate a Python environment<a class="headerlink" href="#create-and-activate-a-python-environment" title="Link to this heading">¶</a></h2>
+<p>Run these commands in Terminal from the project folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+</pre></div>
+</div>
+<p>Skip these commands when you are already working inside a suitable virtual environment.</p>
+</section>
+<section id="install-the-required-tools">
+<h2>2. 🍀 Install the required tools<a class="headerlink" href="#install-the-required-tools" title="Link to this heading">¶</a></h2>
+<p>Install the Python packages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>yt-dlp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>transformers<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>torch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>librosa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>soundfile<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pandas<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>openai<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pydantic<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python-dotenv
+</pre></div>
+</div>
+<p>On macOS, install the command-line tools with Homebrew:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>ffmpeg<span class="w"> </span>deno
+</pre></div>
+</div>
+<p>Check that they are available:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yt-dlp<span class="w"> </span>--version
+ffmpeg<span class="w"> </span>-version
+deno<span class="w"> </span>--version
+</pre></div>
+</div>
+<section id="why-these-tools-are-needed">
+<h3>Why these tools are needed<a class="headerlink" href="#why-these-tools-are-needed" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">yt-dlp</span></code> downloads the media.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> extracts and converts the audio.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">deno</span></code> helps <code class="docutils literal notranslate"><span class="pre">yt-dlp</span></code> handle YouTube’s JavaScript-based checks.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transformers</span></code> loads KB-Whisper.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch</span></code> runs the speech-recognition model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> stores the transcript and extracted vocabulary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openai</span></code> sends the transcript to an OpenAI model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pydantic</span></code> defines the required structured response.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python-dotenv</span></code> loads the API key from a local <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p></li>
+</ul>
+</section>
+</section>
+<section id="download-only-the-audio">
+<h2>3. 🍀 Download only the audio<a class="headerlink" href="#download-only-the-audio" title="Link to this heading">¶</a></h2>
+<p>The following command worked on macOS with Chrome cookies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yt-dlp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cookies-from-browser<span class="w"> </span>chrome<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--js-runtimes<span class="w"> </span>deno<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--remote-components<span class="w"> </span>ejs:github<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-x<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--audio-format<span class="w"> </span>mp3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="s2">&quot;alphabet_audio.%(ext)s&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;https://www.youtube.com/watch?v=pwiyMIFLDpg&quot;</span>
+</pre></div>
+</div>
+<section id="explanation-of-the-options">
+<h3>Explanation of the options<a class="headerlink" href="#explanation-of-the-options" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--cookies-from-browser</span> <span class="pre">chrome</span></code></p></td>
+<td><p>Uses the current Chrome session and cookies</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--js-runtimes</span> <span class="pre">deno</span></code></p></td>
+<td><p>Uses Deno as the JavaScript runtime</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--remote-components</span> <span class="pre">ejs:github</span></code></p></td>
+<td><p>Loads YouTube challenge-handling components</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-x</span></code></p></td>
+<td><p>Extracts audio only</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--audio-format</span> <span class="pre">mp3</span></code></p></td>
+<td><p>Converts the audio to MP3</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">&quot;alphabet_audio.%(ext)s&quot;</span></code></p></td>
+<td><p>Saves the result as <code class="docutils literal notranslate"><span class="pre">alphabet_audio.mp3</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>macOS may ask for permission to access <strong>Chrome Safe Storage</strong> in Keychain.
+Enter the Mac login password and choose <strong>Allow</strong>.</p>
+</section>
+</section>
+<section id="confirm-that-the-audio-file-exists">
+<h2>4. 🍀 Confirm that the audio file exists<a class="headerlink" href="#confirm-that-the-audio-file-exists" title="Link to this heading">¶</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">audio_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;alphabet_audio.mp3&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">audio_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Audio file not found: </span><span class="si">{</span><span class="n">audio_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Audio file:&quot;</span><span class="p">,</span> <span class="n">audio_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Size:&quot;</span><span class="p">,</span>
+    <span class="nb">round</span><span class="p">(</span><span class="n">audio_path</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">1_000_000</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;MB&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Audio file: /Users/changliu/Documents/data-lab/tool/alphabet_audio.mp3
+Size: 8.34 MB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="transcribe-swedish-speech-with-kb-whisper-medium">
+<h2>5. 🍀 Transcribe Swedish speech with KB-Whisper Medium<a class="headerlink" href="#transcribe-swedish-speech-with-kb-whisper-medium" title="Link to this heading">¶</a></h2>
+<p>For this video, <code class="docutils literal notranslate"><span class="pre">KBLab/kb-whisper-medium</span></code> produced more reliable Swedish vocabulary than the other tested models. A more genral powerfull model, such as ‘WhisperModel’, can recognise ‘som i’ but performed poorly in recognising swedish letter or words, e.g. ‘e’,’ä’, ‘maskros.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">transcriber</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span>
+    <span class="n">task</span><span class="o">=</span><span class="s2">&quot;automatic-speech-recognition&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;KBLab/kb-whisper-medium&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">transcriber</span><span class="p">(</span>
+    <span class="nb">str</span><span class="p">(</span><span class="n">audio_path</span><span class="p">),</span>
+    <span class="n">generate_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;sv&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="s2">&quot;transcribe&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">return_timestamps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">elapsed</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Runtime: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4441edcbcf64433aa5b050f7390edde4", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Runtime: 192.1 seconds
+ Hej allihopa! I dag ska vi titta på alla bokstäver i alfabetet och vilka ord man kan använda bokstäverna i. Häng med! Alfabetet börjar med bokstaven A. Så här ser stora A ut och så här ser lilla A ut. Här kommer några ord som börjar. på a. A som i anka. A som i apelsin. A som i apa. A som i ankare. A som i ananas. A som i amborre. Bokstaven b. Stora B och lilla b. B som i, mm. BÅT. B som i BASG focusing. Banan B som i Bil B som i Bok B som i broccoli. Efter B så kommer bokstaven C och lilla c. C som i cykel C som i... citron C som i... clementin C som i... champinjon. C som i ... choklad. Bokstaven D. Stora D och lilla D. D som i .... daggmask. D som i ... Delfin Det är som i dörr Det är som i dragkedja. Det är som i dator! Stora e och lilla e. E som i ekorre. E som i eld. E som i elefant. E som i enhörning. Efter e kommer bokstaven f, stora f och lilla f. F som i får. Nää! F som i flaska. fågel F som i fjäril F som i fjäder Sen har vi bokstaven G. Stora G och lilla g. g som i gran. G som i get. g som i gaffel. g som i gem. g som i gurka. H hww. Stora h. och lilla h. H som i hare. H som i haj. Handduk. H som i hammare. H som i handväska. Efter H kommer i. Stora i och lilla i. I som i insekt. I som i istapp. I som i igelkott. I som i iglo. Sen kommer J. Stora J. och lilla j. J som i Jacka J som i Juice. J som i julgran J som i Jordgubbe J som i Jultomten Här har vi bokstaven K. K, stora K och lilla K. Kiwi K som i... Katt K som i... Kaffe K som i kalv K som i kaktus L. L och lilla L. L som i lampa. L som i lamm. Nä. L som i LIM L som i LAKRIS L som i LEGO Sen kommer bokstaven N. Stora M och lilla M. M som i måne. M som i mus. M som i maskros. M som i morot. Makaroner Och efter m, så kommer N. Här har vi stora N. Och lilla N. N som i nyckel N som i napp En som i nalle. En som i nektarin. En som i nypon. O. Stora O. Och lilla O. O som i overall. O som i oliv. O som i oxe. O som i orm. Nu kommer bokstaven p. Stora p och lilla p. P som i ... päron. P som i ... planet. P som i palm. P som i pyjamas. P som i pirat. Q. Stora Q och lilla Q. Q som i quinoa. Sen kommer R. Stora R och lilla R. R som i räv. R som i rabarber. Som i ring. R som i robot. R som i regnbåge. Som i regnbåge Och lilla s. s. som i SOL. s. som i SALLAD. s. som i SNÖFLINGA. s. som i SAX. s. som i SÄL. Bokstaven T, stora T och lilla T. T som i tax. T som i tejp. Som i tand T som i tofflor Och te som i tandkräm. Det var te Nu kommer U. Då har vi stora U och så lilla U. u som i ... u-båt. u som i ... ur u-som i uggla. u-som i utomjording. Sen kommer bokstaven V. Stora V och lilla v. V som i Vulkan. V som i Vatten. V som i Bas. som i Vanilj V som i... val. W. Stora W. Och lilla W. W. Som i wienerbröd. W som i walkietalkie. W som i WC-toalett. W som i wokie. X stora X och ledningen. Lilla xxx som i xylofon. Y, stora Y och lilla y. Y som i jo jo. Y som i yxa Y som i yoga. Efter Y kommer Z. Stora Z och Lilla Z. Z som i Zucchini. och z, som i zebra. å stora och lilla å å, som i ål å, som i Siffran åtta. Å som i åsna. Å som i åska. Bokstaven ä. Stora ä och lilla ä. Ä, som i ÄPPLE. Ä som i ÄLG Ä som i ÄRTOR. Ä som i ÄGG. Ä som i ÄNGEL och den sista bokstaven i alfabetet är ö. Stora ö. Och så här ser lilla ö ut. Ö, som i öga. Ö som i öra. Ö som i... Ödla Ö som i öken Det var alla bokstäver i alfabetet. Bra jobbat! Om du vill göra det igen kan du alltid spela om det här klippet. Eller så kan du gå in på kanalen och välja klippet som spelas tre gånger efter varandra. Kom ihåg att ju mer man övar... desto lättare går det för varje gång. Vi ses snart igen!
+</pre></div>
+</div>
+</div>
+</div>
+<section id="inspect-the-returned-object">
+<h3>Inspect the returned object<a class="headerlink" href="#inspect-the-returned-object" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">result</span></code> is a dictionary. Its main fields are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">result[&quot;text&quot;]</span></code> — the complete transcription;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result[&quot;chunks&quot;]</span></code> — shorter pieces of text with timestamps.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">][:</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;dict&#39;&gt;
+dict_keys([&#39;text&#39;, &#39;chunks&#39;])
+[{&#39;timestamp&#39;: (0.0, 8.56), &#39;text&#39;: &#39; Hej allihopa!&#39;}, {&#39;timestamp&#39;: (9.48, 16.96), &#39;text&#39;: &#39; I dag ska vi titta på alla bokstäver i alfabetet och vilka ord man kan använda bokstäverna i.&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="store-the-timestamped-transcript-in-a-dataframe">
+<h2>6. 🍀 Store the timestamped transcript in a DataFrame<a class="headerlink" href="#store-the-timestamped-transcript-in-a-dataframe" title="Link to this heading">¶</a></h2>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">transcript_rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]:</span>
+    <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span>
+
+    <span class="n">transcript_rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">start_time</span><span class="p">,</span>
+            <span class="s2">&quot;end&quot;</span><span class="p">:</span> <span class="n">end_time</span><span class="p">,</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">chunk</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+<span class="n">transcript_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">transcript_rows</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">transcript_df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">transcript_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">105</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(220, 3)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>start</th>
+      <th>end</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>105</th>
+      <td>560.04</td>
+      <td>561.66</td>
+      <td>och lilla M.</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>563.00</td>
+      <td>568.00</td>
+      <td>M som i måne.</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>569.00</td>
+      <td>573.02</td>
+      <td>M som i mus.</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>576.80</td>
+      <td>580.80</td>
+      <td>M som i maskros.</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>582.88</td>
+      <td>587.90</td>
+      <td>M som i morot.</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>593.00</td>
+      <td>599.00</td>
+      <td>Makaroner</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="method-1-extract-words-with-a-regular-expression">
+<h2>7. 🍀 Method 1 — extract words with a regular expression<a class="headerlink" href="#method-1-extract-words-with-a-regular-expression" title="Link to this heading">¶</a></h2>
+<p>This method searches for the first word after the phrase <code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code>, such as <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">some</span> <span class="pre">i</span> <span class="pre">anka</span></code>.</p>
+<p>It deliberately ignores the spoken letter before <code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code>, because a speech recognition model may hear the spoken letter <strong>N</strong> as the Swedish word <strong>en</strong>.</p>
+<p>Examples that should still work:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A som i anka
+En som i nalle
+C som i... champinjon
+P som i, päron
+Ö som i ödla
+</pre></div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">transcript_text</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+
+<span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;\bsom\s+i\b[\s,.:;…-]*&quot;</span>
+    <span class="sa">r</span><span class="s2">&quot;([A-Za-zÅÄÖåäö]+(?:-[A-Za-zÅÄÖåäö]+)*)&quot;</span><span class="p">,</span>
+    <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">raw_words</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">transcript_text</span><span class="p">)</span>
+
+<span class="n">candidate_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;raw_word&quot;</span><span class="p">:</span> <span class="n">raw_words</span><span class="p">})</span>
+
+<span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;letter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;raw_word&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+<span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;raw_word&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of words found:&quot;</span><span class="p">,</span> <span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">candidate_df</span><span class="p">[</span><span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+
+<span class="n">candidate_df</span> <span class="o">=</span> <span class="n">candidate_df</span><span class="p">[</span><span class="o">~</span><span class="n">candidate_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+
+<span class="n">candidate_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">105</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of words found: 122
+    raw_word letter      word
+79  regnbåge      R  regnbåge
+80  regnbåge      R  regnbåge
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>raw_word</th>
+      <th>letter</th>
+      <th>word</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>105</th>
+      <td>jo</td>
+      <td>J</td>
+      <td>jo</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>yxa</td>
+      <td>Y</td>
+      <td>yxa</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>yoga</td>
+      <td>Y</td>
+      <td>yoga</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>Zucchini</td>
+      <td>Z</td>
+      <td>zucchini</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>zebra</td>
+      <td>Z</td>
+      <td>zebra</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>ål</td>
+      <td>Å</td>
+      <td>ål</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="how-the-regular-expression-works">
+<h3>7.1 How the regular expression works<a class="headerlink" href="#how-the-regular-expression-works" title="Link to this heading">¶</a></h3>
+<p>Python automatically joins the two adjacent raw strings. The complete pattern is:</p>
+<div class="highlight-regex notranslate"><div class="highlight"><pre><span></span>\bsom\s+i\b[\s,.:;…-]*([A-Za-zÅÄÖåäö]+(?:-[A-Za-zÅÄÖåäö]+)*)
+</pre></div>
+</div>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">\bsom\s+i\b</span></code></p>
+<p>The two <code class="docutils literal notranslate"><span class="pre">\b</span></code> markers and the expression between them work together to match
+<code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code> as complete words:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>\b som ... i \b
+│             │
+start         end
+boundary      boundary
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>the first <code class="docutils literal notranslate"><span class="pre">\b</span></code> requires a word boundary before <code class="docutils literal notranslate"><span class="pre">som</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">\s+</span></code> requires one or more whitespace characters between <code class="docutils literal notranslate"><span class="pre">som</span></code> and <code class="docutils literal notranslate"><span class="pre">i</span></code>;</p></li>
+<li><p>the second <code class="docutils literal notranslate"><span class="pre">\b</span></code> requires a word boundary after <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p></li>
+</ul>
+<p>Therefore, the pattern can match <code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code>, but it does not treat the <code class="docutils literal notranslate"><span class="pre">som</span></code> inside <code class="docutils literal notranslate"><span class="pre">midsommar</span></code> or the <code class="docutils literal notranslate"><span class="pre">i</span></code> at the beginning of <code class="docutils literal notranslate"><span class="pre">igelkott</span></code> as separate words.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[\s,.:;…-]*</span></code></p>
+<p>The square brackets define allowed separator characters after <code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">\s</span></code> — whitespace;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">,</span></code> — comma;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.</span></code> — full stop;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">:</span></code> — colon;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">;</span></code> — semicolon;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">…</span></code> — ellipsis;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-</span></code> — hyphen.</p></li>
+</ul>
+<p>The final <code class="docutils literal notranslate"><span class="pre">*</span></code> means <strong>zero or more</strong> separator characters.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[A-Za-zÅÄÖåäö]+</span></code></p>
+<p>The character set matches one letter at a time:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">A-Z</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a-z</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ÅÄÖ</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">åäö</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">+</span></code> means <strong>one or more consecutive letters</strong>, so the complete expression can match a word such as <code class="docutils literal notranslate"><span class="pre">anka</span></code>, <code class="docutils literal notranslate"><span class="pre">äpple</span></code>, or <code class="docutils literal notranslate"><span class="pre">ödla</span></code>.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">(?:-[A-Za-zÅÄÖåäö]+)*</span></code></p>
+<p>This optional non-capturing group allows one or more hyphenated word sections. It makes the complete capturing group able to match:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>anka
+U-båt
+walkie-talkie
+WC-toalett
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flags=re.IGNORECASE</span></code></p>
+<p>This makes <code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code>, <code class="docutils literal notranslate"><span class="pre">Som</span> <span class="pre">i</span></code>, and <code class="docutils literal notranslate"><span class="pre">SOM</span> <span class="pre">I</span></code> equivalent for matching.</p>
+</li>
+</ul>
+</section>
+<section id="create-the-two-column-regex-dataframe">
+<h3>7.2 Create the two-column regex DataFrame<a class="headerlink" href="#create-the-two-column-regex-dataframe" title="Link to this heading">¶</a></h3>
+<p>The letter is derived from the first character of the extracted word.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">regex_swedish_df</span> <span class="o">=</span> <span class="n">candidate_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;raw_word&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of letters found:&quot;</span><span class="p">,</span> <span class="n">regex_swedish_df</span><span class="p">[</span><span class="s2">&quot;letter&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of words found:&quot;</span><span class="p">,</span> <span class="n">regex_swedish_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of letters found: &lt;StringArray&gt;
+[&#39;A&#39;, &#39;M&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;, &#39;K&#39;, &#39;L&#39;, &#39;N&#39;, &#39;O&#39;,
+ &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;, &#39;U&#39;, &#39;V&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;Å&#39;, &#39;Ä&#39;, &#39;Ö&#39;]
+Length: 29, dtype: str
+Number of words found: &lt;StringArray&gt;
+[   &#39;anka&#39;, &#39;apelsin&#39;,     &#39;apa&#39;,  &#39;ankare&#39;,  &#39;ananas&#39;, &#39;amborre&#39;,      &#39;mm&#39;,
+    &#39;basg&#39;,     &#39;bil&#39;,     &#39;bok&#39;,
+ ...
+    &#39;åska&#39;,   &#39;äpple&#39;,     &#39;älg&#39;,   &#39;ärtor&#39;,     &#39;ägg&#39;,   &#39;ängel&#39;,     &#39;öga&#39;,
+     &#39;öra&#39;,    &#39;ödla&#39;,    &#39;öken&#39;]
+Length: 121, dtype: str
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="limitation-of-the-regex-method">
+<h3>Limitation of the regex method<a class="headerlink" href="#limitation-of-the-regex-method" title="Link to this heading">¶</a></h3>
+<p>The speech-rocognition model is not 100% accurate. Therefore, the transcript does not always follow the patter <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">som</span> <span class="pre">i</span> <span class="pre">anka</span></code>.</p>
+<p>For example, in the transcript:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>F som i flaska. fågel F som i fjäril
+</pre></div>
+</div>
+<p>The regex finds <code class="docutils literal notranslate"><span class="pre">flaska</span></code> and <code class="docutils literal notranslate"><span class="pre">fjäril</span></code>, but it misses <code class="docutils literal notranslate"><span class="pre">fågel</span></code>. It still need some mannual work.</p>
+</section>
+</section>
+<section id="method-2-extract-and-normalize-words-with-the-openai-api">
+<h2>8. 🍀 Method 2 — extract and normalize words with the OpenAI API<a class="headerlink" href="#method-2-extract-and-normalize-words-with-the-openai-api" title="Link to this heading">¶</a></h2>
+<p>This method sends the complete transcript to a language model. The model can use the
+alphabet order, surrounding examples, Swedish vocabulary, and the broader
+sentence structure.</p>
+<p>The model is asked to:</p>
+<ul class="simple">
+<li><p>identify all example nouns;</p></li>
+<li><p>normalize probable speech-recognition errors into standard Swedish spelling;</p></li>
+<li><p>preserve the original transcript wording for review;</p></li>
+<li><p>mark uncertain interpretations with lower confidence;</p></li>
+</ul>
+<section id="store-the-api-key-safely">
+<h3>8.1 Store the API key safely<a class="headerlink" href="#store-the-api-key-safely" title="Link to this heading">¶</a></h3>
+<p>Create a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the notebook’s project folder:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>OPENAI_API_KEY=your_api_key_here
+OPENAI_MODEL=gpt-5.2
+</pre></div>
+</div>
+<p>Add <code class="docutils literal notranslate"><span class="pre">.env</span></code> to <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, never publish the API key in a notebook or Git repository.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span>
+        <span class="s2">&quot;OPENAI_API_KEY was not found in the environment or .env file.&quot;</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY is available.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OPENAI_API_KEY is available.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="define-the-required-structured-output">
+<h3>8.2 Define the required structured output<a class="headerlink" href="#define-the-required-structured-output" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AlphabetExample</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">letter</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">word</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">confidence</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;low&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AlphabetExtraction</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">examples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AlphabetExample</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="send-the-complete-transcript-to-the-api">
+<h3>8.3 Send the complete transcript to the API<a class="headerlink" href="#send-the-complete-transcript-to-the-api" title="Link to this heading">¶</a></h3>
+<p>The prompt defines the task, but it does not provide a prepared list of correct
+nouns. The model must inspect the transcript itself.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">openai</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">OpenAI</span><span class="p">()</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">responses</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;gpt-5.2&quot;</span><span class="p">,</span>
+    <span class="n">reasoning</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;effort&quot;</span><span class="p">:</span> <span class="s2">&quot;medium&quot;</span><span class="p">},</span>
+    <span class="nb">input</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                        Extract and normalize the Swedish example words from the</span>
+<span class="s2">                        speech-recognition transcript according to the swedish alphabet.</span>
+
+<span class="s2">                        Desired output:</span>
+<span class="s2">                            - letter		</span>
+<span class="s2">                            - word	</span>
+<span class="s2">                            - confidence</span>
+
+<span class="s2">                        Each letter is followeed by several examples words starting with that letter. </span>
+<span class="s2">                        The transcript may contain misheard or misrecognized words.</span>
+
+<span class="s2">                        Do not invent examples if you can not infer them from the transcript.</span>
+<span class="s2">                        &quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">transcript_text</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="n">text_format</span><span class="o">=</span><span class="n">AlphabetExtraction</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">api_result</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">output_parsed</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="convert-the-detailed-result-to-a-review-dataframe">
+<h3>8.4 Convert the detailed result to a review DataFrame<a class="headerlink" href="#convert-the-detailed-result-to-a-review-dataframe" title="Link to this heading">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_review_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">example</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">api_result</span><span class="o">.</span><span class="n">examples</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rows returned:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">api_review_df</span><span class="p">))</span>
+<span class="n">api_review_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">105</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Rows returned: 126
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>letter</th>
+      <th>word</th>
+      <th>confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>105</th>
+      <td>W</td>
+      <td>wc-toalett</td>
+      <td>high</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>W</td>
+      <td>wok</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>X</td>
+      <td>xylofon</td>
+      <td>high</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>Y</td>
+      <td>yoyo</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>Y</td>
+      <td>yxa</td>
+      <td>high</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="review-uncertain-words">
+<h3>8.5 Review uncertain words<a class="headerlink" href="#review-uncertain-words" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uncertain_rows</span> <span class="o">=</span> <span class="n">api_review_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">api_review_df</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;high&quot;</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Uncertain rows:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">uncertain_rows</span><span class="p">))</span>
+
+<span class="n">uncertain_rows</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Uncertain rows: 6
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>letter</th>
+      <th>word</th>
+      <th>confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>A</td>
+      <td>abborre</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>F</td>
+      <td>får</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>I</td>
+      <td>igloo</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>V</td>
+      <td>vas</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>W</td>
+      <td>wok</td>
+      <td>medium</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>Y</td>
+      <td>yoyo</td>
+      <td>medium</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_swedish_df</span> <span class="o">=</span> <span class="n">api_review_df</span><span class="p">[[</span><span class="s2">&quot;letter&quot;</span><span class="p">,</span> <span class="s2">&quot;word&quot;</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Letters found:&quot;</span><span class="p">,</span> <span class="n">api_swedish_df</span><span class="p">[</span><span class="s2">&quot;letter&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Swedish words:&quot;</span><span class="p">,</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">api_swedish_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Letters found: &lt;StringArray&gt;
+[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;, &#39;G&#39;, &#39;H&#39;, &#39;I&#39;, &#39;J&#39;, &#39;K&#39;, &#39;L&#39;, &#39;M&#39;, &#39;N&#39;, &#39;O&#39;,
+ &#39;P&#39;, &#39;Q&#39;, &#39;R&#39;, &#39;S&#39;, &#39;T&#39;, &#39;U&#39;, &#39;V&#39;, &#39;W&#39;, &#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;, &#39;Å&#39;, &#39;Ä&#39;, &#39;Ö&#39;]
+Length: 29, dtype: str
+Swedish words: anka, apelsin, apa, ankare, ananas, abborre, båt, banan, bil, bok, broccoli, cykel, citron, clementin, champinjon, choklad, daggmask, delfin, dörr, dragkedja, dator, ekorre, eld, elefant, enhörning, får, flaska, fågel, fjäril, fjäder, gran, get, gaffel, gem, gurka, hare, haj, handduk, hammare, handväska, insekt, istapp, igelkott, igloo, jacka, juice, julgran, jordgubbe, jultomten, kiwi, katt, kaffe, kalv, kaktus, lampa, lamm, lim, lakrits, lego, måne, mus, maskros, morot, makaroner, nyckel, napp, nalle, nektarin, nypon, overall, oliv, oxe, orm, päron, planet, palm, pyjamas, pirat, quinoa, räv, rabarber, ring, robot, regnbåge, sol, sallad, snöflinga, sax, säl, tax, tejp, tand, tofflor, tandkräm, ubåt, ur, uggla, utomjording, vulkan, vatten, vas, vanilj, val, wienerbröd, walkie-talkie, wc-toalett, wok, xylofon, yoyo, yxa, yoga, zucchini, zebra, ål, åtta, åsna, åska, äpple, älg, ärtor, ägg, ängel, öga, öra, ödla, öken
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="alternative-3-send-the-transcript-to-ai-apps-directly">
+<h2>9. 🍀 Alternative 3: Send the transcript to AI apps directly<a class="headerlink" href="#alternative-3-send-the-transcript-to-ai-apps-directly" title="Link to this heading">¶</a></h2>
+<p>The API costs a bit money, and the regex method takes a bit time. I have personally tested these three alternatives, and conclude that it is best to just send transcript to ChatGPT (since i pay monthly), and it can return back the correct alphabet with correct example nouns. I copied the results from <code class="docutils literal notranslate"><span class="pre">GPT-5.6</span> <span class="pre">Sol</span> <span class="pre">Medium</span></code> as followed:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">alphabet_words</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="s2">&quot;anka apelsin apa ankare ananas abborre&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="s2">&quot;båt banan bil bok broccoli&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="s2">&quot;cykel citron clementin champinjon choklad&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;D&quot;</span><span class="p">:</span> <span class="s2">&quot;daggmask delfin dörr dragkedja dator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;E&quot;</span><span class="p">:</span> <span class="s2">&quot;ekorre eld elefant enhörning&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="s2">&quot;får flaska fågel fjäril fjäder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;G&quot;</span><span class="p">:</span> <span class="s2">&quot;gran get gaffel gem gurka&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;H&quot;</span><span class="p">:</span> <span class="s2">&quot;hare haj handduk hammare handväska&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;I&quot;</span><span class="p">:</span> <span class="s2">&quot;insekt istapp igelkott iglo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;J&quot;</span><span class="p">:</span> <span class="s2">&quot;jacka juice julgran jordgubbe jultomten&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="s2">&quot;kiwi katt kaffe kalv kaktus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="s2">&quot;lampa lamm lim lakrits lego&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="s2">&quot;måne mus maskros morot makaroner&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;N&quot;</span><span class="p">:</span> <span class="s2">&quot;nyckel napp nalle nektarin nypon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;O&quot;</span><span class="p">:</span> <span class="s2">&quot;overall oliv oxe orm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="s2">&quot;päron planet palm pyjamas pirat&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="s2">&quot;quinoa&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;R&quot;</span><span class="p">:</span> <span class="s2">&quot;räv rabarber ring robot regnbåge&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;S&quot;</span><span class="p">:</span> <span class="s2">&quot;sol sallad snöflinga sax säl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="s2">&quot;tax tejp tand tofflor tandkräm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="s2">&quot;u-båt ur uggla utomjording&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;V&quot;</span><span class="p">:</span> <span class="s2">&quot;vulkan vatten vas vanilj val&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;W&quot;</span><span class="p">:</span> <span class="s2">&quot;wienerbröd walkie-talkie wc-toalett wok&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="s2">&quot;xylofon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="s2">&quot;jojo yxa yoga&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="s2">&quot;zucchini zebra&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Å&quot;</span><span class="p">:</span> <span class="s2">&quot;ål åtta åsna åska&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Ä&quot;</span><span class="p">:</span> <span class="s2">&quot;äpple älg ärtor ägg ängel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Ö&quot;</span><span class="p">:</span> <span class="s2">&quot;öga öra ödla öken&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">gpt56_swedish_df</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">alphabet_words</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;word&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">explode</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s2">&quot;letter&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="comparision">
+<h2>10. 🍀 Comparision<a class="headerlink" href="#comparision" title="Link to this heading">¶</a></h2>
+<p>The comparison identifies:</p>
+<ul class="simple">
+<li><p>words found only by the API, including examples missed because <code class="docutils literal notranslate"><span class="pre">som</span> <span class="pre">i</span></code> was
+omitted;</p></li>
+<li><p>words found only by regex, which may indicate an API omission or a literal
+transcription error requiring review.</p></li>
+<li><p>words processed by ChatGPT-5.6 sol directly</p></li>
+</ul>
+<section id="import-the-manually-corrected-data">
+<h3>10.1 Import the manually corrected data<a class="headerlink" href="#import-the-manually-corrected-data" title="Link to this heading">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reference_swedish_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;swedish_alphabet_words_checked.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+<span class="n">reference_swedish_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">105</span><span class="p">:</span><span class="mi">110</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>letter</th>
+      <th>word</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>105</th>
+      <td>W</td>
+      <td>wc-toalett</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>W</td>
+      <td>wok</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>X</td>
+      <td>xylofon</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>Y</td>
+      <td>yo-yo</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>Y</td>
+      <td>yxa</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>Y</td>
+      <td>yoga</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="combine-dataframes">
+<h3>10.2 Combine dataframes<a class="headerlink" href="#combine-dataframes" title="Link to this heading">¶</a></h3>
+<p>Here we desing a heatmap to show the differences of each method compared with the reference</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">dataframes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="n">reference_swedish_df</span><span class="p">,</span>
+    <span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="n">regex_swedish_df</span><span class="p">,</span>
+    <span class="s2">&quot;api&quot;</span><span class="p">:</span> <span class="n">api_swedish_df</span><span class="p">,</span>
+    <span class="s2">&quot;gpt56&quot;</span><span class="p">:</span> <span class="n">gpt56_swedish_df</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">combined_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;word&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">dataframes</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Normalize words</span>
+<span class="n">combined_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">combined_df</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Convert to wide format</span>
+<span class="n">combined_df_wide</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">combined_df</span>
+    <span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+        <span class="n">index</span><span class="o">=</span><span class="s2">&quot;word&quot;</span><span class="p">,</span>
+        <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;source&quot;</span><span class="p">,</span>
+        <span class="n">values</span><span class="o">=</span><span class="s2">&quot;word&quot;</span><span class="p">,</span>
+        <span class="n">aggfunc</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">,</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="s2">&quot;api&quot;</span><span class="p">,</span> <span class="s2">&quot;gpt56&quot;</span><span class="p">])</span>
+<span class="p">)</span>
+
+<span class="n">combined_df_wide</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">combined_df_wide</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>reference</th>
+      <th>regex</th>
+      <th>api</th>
+      <th>gpt56</th>
+    </tr>
+    <tr>
+      <th>word</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>abborre</th>
+      <td>abborre</td>
+      <td>&lt;NA&gt;</td>
+      <td>abborre</td>
+      <td>abborre</td>
+    </tr>
+    <tr>
+      <th>amborre</th>
+      <td>&lt;NA&gt;</td>
+      <td>amborre</td>
+      <td>&lt;NA&gt;</td>
+      <td>&lt;NA&gt;</td>
+    </tr>
+    <tr>
+      <th>ananas</th>
+      <td>ananas</td>
+      <td>ananas</td>
+      <td>ananas</td>
+      <td>ananas</td>
+    </tr>
+    <tr>
+      <th>anka</th>
+      <td>anka</td>
+      <td>anka</td>
+      <td>anka</td>
+      <td>anka</td>
+    </tr>
+    <tr>
+      <th>ankare</th>
+      <td>ankare</td>
+      <td>ankare</td>
+      <td>ankare</td>
+      <td>ankare</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>åtta</th>
+      <td>åtta</td>
+      <td>&lt;NA&gt;</td>
+      <td>åtta</td>
+      <td>åtta</td>
+    </tr>
+    <tr>
+      <th>ödla</th>
+      <td>ödla</td>
+      <td>ödla</td>
+      <td>ödla</td>
+      <td>ödla</td>
+    </tr>
+    <tr>
+      <th>öga</th>
+      <td>öga</td>
+      <td>öga</td>
+      <td>öga</td>
+      <td>öga</td>
+    </tr>
+    <tr>
+      <th>öken</th>
+      <td>öken</td>
+      <td>öken</td>
+      <td>öken</td>
+      <td>öken</td>
+    </tr>
+    <tr>
+      <th>öra</th>
+      <td>öra</td>
+      <td>öra</td>
+      <td>öra</td>
+      <td>öra</td>
+    </tr>
+  </tbody>
+</table>
+<p>139 rows × 4 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="prepare-data-for-visualisation">
+<h3>10.3 Prepare data for visualisation<a class="headerlink" href="#prepare-data-for-visualisation" title="Link to this heading">¶</a></h3>
+<p>Divide data to different color groups:</p>
+<ul class="simple">
+<li><p>no data = 0 = grey</p></li>
+<li><p>wrong recognition = 1 = red</p></li>
+<li><p>correct recognition = 2 = green</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">np.where</span></code> works like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">value_if_true</span><span class="p">,</span> <span class="n">value_if_false</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the data is missing, set it to <code class="docutils literal notranslate"><span class="pre">0</span></code>,
+If the data is not missing: 1, if it is correct, set it to <code class="docutils literal notranslate"><span class="pre">2</span></code>, if it not correct, set it to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Put columns in the desired order</span>
+<span class="n">plot_df</span> <span class="o">=</span> <span class="n">combined_df_wide</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Whether the cell has a value (not NaN/NA) or not</span>
+<span class="n">present</span> <span class="o">=</span> <span class="n">plot_df</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+
+<span class="c1"># True when this row represents a correct reference word</span>
+<span class="n">correct_word</span> <span class="o">=</span> <span class="n">plot_df</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+<span class="n">correct_word</span> <span class="o">=</span> <span class="n">correct_word</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+<span class="c1"># Status:</span>
+<span class="c1"># 0 = missing, 1 = wrong, 2 = correct</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="o">~</span><span class="n">present</span><span class="p">,</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">correct_word</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">status</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[2, 0, 2, 2],
+       [0, 1, 0, 0],
+       [2, 2, 2, 2],
+       [2, 2, 2, 2],
+       [2, 2, 2, 2]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="heatmap-visualisation">
+<h3>10.4 Heatmap visualisation<a class="headerlink" href="#heatmap-visualisation" title="Link to this heading">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+
+<span class="c1"># Load Plotly.js from the internet instead of embedding it</span>
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s2">&quot;notebook_connected&quot;</span>
+
+<span class="c1"># Text displayed inside each cell</span>
+<span class="n">cell_text</span> <span class="o">=</span> <span class="n">plot_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># Discrete colour scale:</span>
+<span class="c1"># grey = missing, light red = wrong, light green = correct</span>
+<span class="n">colorscale</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;#eeeeee&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="s2">&quot;#eeeeee&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="s2">&quot;#f8caca&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.66</span><span class="p">,</span> <span class="s2">&quot;#f8caca&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.66</span><span class="p">,</span> <span class="s2">&quot;#cce8cc&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">1.00</span><span class="p">,</span> <span class="s2">&quot;#cce8cc&quot;</span><span class="p">],</span>
+<span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span>
+    <span class="n">go</span><span class="o">.</span><span class="n">Heatmap</span><span class="p">(</span>
+        <span class="n">z</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Reference&quot;</span><span class="p">,</span> <span class="s2">&quot;Regex&quot;</span><span class="p">,</span> <span class="s2">&quot;API&quot;</span><span class="p">,</span> <span class="s2">&quot;GPT-5.6&quot;</span><span class="p">],</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">plot_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span>
+        <span class="n">text</span><span class="o">=</span><span class="n">cell_text</span><span class="p">,</span>
+        <span class="n">texttemplate</span><span class="o">=</span><span class="s2">&quot;%</span><span class="si">{text}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">textfont</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">},</span>
+        <span class="n">colorscale</span><span class="o">=</span><span class="n">colorscale</span><span class="p">,</span>
+        <span class="n">zmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">zmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">showscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">xgap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">ygap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">hovertemplate</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Word: %</span><span class="si">{y}</span><span class="s2">&lt;br&gt;&quot;</span>
+            <span class="s2">&quot;Source: %</span><span class="si">{x}</span><span class="s2">&lt;br&gt;&quot;</span>
+            <span class="s2">&quot;Result: %</span><span class="si">{text}</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;&lt;extra&gt;&lt;/extra&gt;&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mi">700</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot_df</span><span class="p">)</span> <span class="o">*</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="n">width</span><span class="o">=</span><span class="mi">850</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s2">&quot;Recognition method&quot;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s2">&quot;Word variant&quot;</span><span class="p">,</span>
+    <span class="n">xaxis_side</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+    <span class="n">yaxis_autorange</span><span class="o">=</span><span class="s2">&quot;reversed&quot;</span><span class="p">,</span>
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">130</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html">        <script>
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.5.0.min"</script>
+        </div><div class="output text_html"><div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.5.0.min.js" integrity="sha256-fHbNLP+GlIXN+efbQec78UkemUz3NJp7UmfGxC1tNxs=" crossorigin="anonymous"></script>                <div id="fbc4a97e-dcde-49e3-b7bf-ef630b01ad94" class="plotly-graph-div" style="height:3336px; width:850px;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fbc4a97e-dcde-49e3-b7bf-ef630b01ad94")) {                    Plotly.newPlot(                        "fbc4a97e-dcde-49e3-b7bf-ef630b01ad94",                        [{"colorscale":[[0.0,"#eeeeee"],[0.33,"#eeeeee"],[0.33,"#f8caca"],[0.66,"#f8caca"],[0.66,"#cce8cc"],[1.0,"#cce8cc"]],"hovertemplate":"Word: %{y}\u003cbr\u003eSource: %{x}\u003cbr\u003eResult: %{text}\u003cextra\u003e\u003c\u002fextra\u003e","showscale":false,"text":[["abborre","","abborre","abborre"],["","amborre","",""],["ananas","ananas","ananas","ananas"],["anka","anka","anka","anka"],["ankare","ankare","ankare","ankare"],["apa","apa","apa","apa"],["apelsin","apelsin","apelsin","apelsin"],["banan","","banan","banan"],["","bas","",""],["","basg","",""],["bil","bil","bil","bil"],["bok","bok","bok","bok"],["broccoli","broccoli","broccoli","broccoli"],["b\u00e5t","","b\u00e5t","b\u00e5t"],["champinjon","champinjon","champinjon","champinjon"],["choklad","choklad","choklad","choklad"],["citron","citron","citron","citron"],["clementin","clementin","clementin","clementin"],["cykel","cykel","cykel","cykel"],["daggmask","daggmask","daggmask","daggmask"],["dator","dator","dator","dator"],["delfin","delfin","delfin","delfin"],["dragkedja","dragkedja","dragkedja","dragkedja"],["d\u00f6rr","d\u00f6rr","d\u00f6rr","d\u00f6rr"],["ekorre","ekorre","ekorre","ekorre"],["eld","eld","eld","eld"],["elefant","elefant","elefant","elefant"],["enh\u00f6rning","enh\u00f6rning","enh\u00f6rning","enh\u00f6rning"],["fj\u00e4der","fj\u00e4der","fj\u00e4der","fj\u00e4der"],["fj\u00e4ril","fj\u00e4ril","fj\u00e4ril","fj\u00e4ril"],["flaska","flaska","flaska","flaska"],["f\u00e5gel","","f\u00e5gel","f\u00e5gel"],["f\u00e5r","f\u00e5r","f\u00e5r","f\u00e5r"],["gaffel","gaffel","gaffel","gaffel"],["gem","gem","gem","gem"],["get","get","get","get"],["gran","gran","gran","gran"],["gurka","gurka","gurka","gurka"],["haj","haj","haj","haj"],["hammare","hammare","hammare","hammare"],["handduk","","handduk","handduk"],["handv\u00e4ska","handv\u00e4ska","handv\u00e4ska","handv\u00e4ska"],["hare","hare","hare","hare"],["igelkott","igelkott","igelkott","igelkott"],["","iglo","","iglo"],["igloo","","igloo",""],["insekt","insekt","insekt","insekt"],["istapp","istapp","istapp","istapp"],["jacka","jacka","jacka","jacka"],["","jo","",""],["","","","jojo"],["jordgubbe","jordgubbe","jordgubbe","jordgubbe"],["juice","juice","juice","juice"],["julgran","julgran","julgran","julgran"],["jultomten","jultomten","jultomten","jultomten"],["kaffe","kaffe","kaffe","kaffe"],["kaktus","kaktus","kaktus","kaktus"],["kalv","kalv","kalv","kalv"],["katt","katt","katt","katt"],["kiwi","","kiwi","kiwi"],["","lakris","",""],["lakrits","","lakrits","lakrits"],["lamm","lamm","lamm","lamm"],["lampa","lampa","lampa","lampa"],["lego","lego","lego","lego"],["lim","lim","lim","lim"],["makaroner","","makaroner","makaroner"],["maskros","maskros","maskros","maskros"],["","mm","",""],["morot","morot","morot","morot"],["mus","mus","mus","mus"],["m\u00e5ne","m\u00e5ne","m\u00e5ne","m\u00e5ne"],["nalle","nalle","nalle","nalle"],["napp","napp","napp","napp"],["nektarin","nektarin","nektarin","nektarin"],["nyckel","nyckel","nyckel","nyckel"],["nypon","nypon","nypon","nypon"],["oliv","oliv","oliv","oliv"],["orm","orm","orm","orm"],["overall","overall","overall","overall"],["oxe","oxe","oxe","oxe"],["palm","palm","palm","palm"],["pirat","pirat","pirat","pirat"],["planet","planet","planet","planet"],["pyjamas","pyjamas","pyjamas","pyjamas"],["p\u00e4ron","p\u00e4ron","p\u00e4ron","p\u00e4ron"],["quinoa","quinoa","quinoa","quinoa"],["rabarber","rabarber","rabarber","rabarber"],["regnb\u00e5ge","","regnb\u00e5ge","regnb\u00e5ge"],["ring","ring","ring","ring"],["robot","robot","robot","robot"],["r\u00e4v","r\u00e4v","r\u00e4v","r\u00e4v"],["sallad","sallad","sallad","sallad"],["sax","sax","sax","sax"],["","siffran","",""],["sn\u00f6flinga","sn\u00f6flinga","sn\u00f6flinga","sn\u00f6flinga"],["sol","sol","sol","sol"],["s\u00e4l","s\u00e4l","s\u00e4l","s\u00e4l"],["tand","tand","tand","tand"],["tandkr\u00e4m","tandkr\u00e4m","tandkr\u00e4m","tandkr\u00e4m"],["tax","tax","tax","tax"],["tejp","tejp","tejp","tejp"],["tofflor","tofflor","tofflor","tofflor"],["","u-b\u00e5t","","u-b\u00e5t"],["ub\u00e5t","","ub\u00e5t",""],["uggla","uggla","uggla","uggla"],["ur","ur","ur","ur"],["utomjording","utomjording","utomjording","utomjording"],["val","val","val","val"],["vanilj","vanilj","vanilj","vanilj"],["vas","","vas","vas"],["vatten","vatten","vatten","vatten"],["vulkan","vulkan","vulkan","vulkan"],["walkie-talkie","","walkie-talkie","walkie-talkie"],["","walkietalkie","",""],["wc-toalett","wc-toalett","wc-toalett","wc-toalett"],["wienerbr\u00f6d","wienerbr\u00f6d","wienerbr\u00f6d","wienerbr\u00f6d"],["wok","","wok","wok"],["","wokie","",""],["xylofon","xylofon","xylofon","xylofon"],["yo-yo","","",""],["yoga","yoga","yoga","yoga"],["","","yoyo",""],["yxa","yxa","yxa","yxa"],["zebra","zebra","zebra","zebra"],["zucchini","zucchini","zucchini","zucchini"],["\u00e4gg","\u00e4gg","\u00e4gg","\u00e4gg"],["\u00e4lg","\u00e4lg","\u00e4lg","\u00e4lg"],["\u00e4ngel","\u00e4ngel","\u00e4ngel","\u00e4ngel"],["\u00e4pple","\u00e4pple","\u00e4pple","\u00e4pple"],["\u00e4rtor","\u00e4rtor","\u00e4rtor","\u00e4rtor"],["\u00e5l","\u00e5l","\u00e5l","\u00e5l"],["\u00e5ska","\u00e5ska","\u00e5ska","\u00e5ska"],["\u00e5sna","\u00e5sna","\u00e5sna","\u00e5sna"],["\u00e5tta","","\u00e5tta","\u00e5tta"],["\u00f6dla","\u00f6dla","\u00f6dla","\u00f6dla"],["\u00f6ga","\u00f6ga","\u00f6ga","\u00f6ga"],["\u00f6ken","\u00f6ken","\u00f6ken","\u00f6ken"],["\u00f6ra","\u00f6ra","\u00f6ra","\u00f6ra"]],"textfont":{"size":11},"texttemplate":"%{text}","x":["Reference","Regex","API","GPT-5.6"],"xgap":2,"y":["abborre","amborre","ananas","anka","ankare","apa","apelsin","banan","bas","basg","bil","bok","broccoli","b\u00e5t","champinjon","choklad","citron","clementin","cykel","daggmask","dator","delfin","dragkedja","d\u00f6rr","ekorre","eld","elefant","enh\u00f6rning","fj\u00e4der","fj\u00e4ril","flaska","f\u00e5gel","f\u00e5r","gaffel","gem","get","gran","gurka","haj","hammare","handduk","handv\u00e4ska","hare","igelkott","iglo","igloo","insekt","istapp","jacka","jo","jojo","jordgubbe","juice","julgran","jultomten","kaffe","kaktus","kalv","katt","kiwi","lakris","lakrits","lamm","lampa","lego","lim","makaroner","maskros","mm","morot","mus","m\u00e5ne","nalle","napp","nektarin","nyckel","nypon","oliv","orm","overall","oxe","palm","pirat","planet","pyjamas","p\u00e4ron","quinoa","rabarber","regnb\u00e5ge","ring","robot","r\u00e4v","sallad","sax","siffran","sn\u00f6flinga","sol","s\u00e4l","tand","tandkr\u00e4m","tax","tejp","tofflor","u-b\u00e5t","ub\u00e5t","uggla","ur","utomjording","val","vanilj","vas","vatten","vulkan","walkie-talkie","walkietalkie","wc-toalett","wienerbr\u00f6d","wok","wokie","xylofon","yo-yo","yoga","yoyo","yxa","zebra","zucchini","\u00e4gg","\u00e4lg","\u00e4ngel","\u00e4pple","\u00e4rtor","\u00e5l","\u00e5ska","\u00e5sna","\u00e5tta","\u00f6dla","\u00f6ga","\u00f6ken","\u00f6ra"],"ygap":2,"z":{"dtype":"i1","bdata":"AgACAgABAAACAgICAgICAgICAgICAgICAgICAgIAAgIAAQAAAAEAAAICAgICAgICAgICAgIAAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAAgICAgICAgICAgICAgIAAQABAgACAAICAgICAgICAgICAgABAAAAAAABAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAAICAAEAAAIAAgICAgICAgICAgICAgICAgICAgACAgICAgIAAQAAAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAAgICAgICAgICAgICAgICAgICAgICAgABAAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgABAAECAAIAAgICAgICAgICAgICAgICAgICAgICAAICAgICAgICAgICAAICAAEAAAICAgICAgICAgACAgABAAACAgICAgAAAAICAgIAAAEAAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAAICAgICAgICAgICAgICAgICAg==","shape":"139, 4"},"zmax":2,"zmin":0,"type":"heatmap"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"title":{"text":"Recognition method"},"side":"top"},"yaxis":{"title":{"text":"Word variant"},"autorange":"reversed"},"margin":{"l":130,"r":20,"t":100,"b":30},"height":3336,"width":850},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('fbc4a97e-dcde-49e3-b7bf-ef630b01ad94');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div></div></div>
+</div>
+</section>
+<section id="accuracy">
+<h3>10.5 Accuracy<a class="headerlink" href="#accuracy" title="Link to this heading">¶</a></h3>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="s2">&quot;api&quot;</span><span class="p">,</span> <span class="s2">&quot;gpt56&quot;</span><span class="p">]</span>
+
+<span class="n">reference_present</span> <span class="o">=</span> <span class="n">plot_df</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+<span class="n">n_reference</span> <span class="o">=</span> <span class="n">reference_present</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">accuracy_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="n">method</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Correct&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">reference_present</span> <span class="o">&amp;</span> <span class="n">plot_df</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+            <span class="s2">&quot;Wrong&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="o">~</span><span class="n">reference_present</span> <span class="o">&amp;</span> <span class="n">plot_df</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+            <span class="s2">&quot;Missing&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">reference_present</span> <span class="o">&amp;</span> <span class="n">plot_df</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span>
+    <span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+<span class="n">accuracy_table</span><span class="p">[</span><span class="s2">&quot;Accuracy (%)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">accuracy_table</span><span class="p">[</span><span class="s2">&quot;Correct&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">n_reference</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">accuracy_table</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Correct</th>
+      <th>Wrong</th>
+      <th>Missing</th>
+      <th>Accuracy (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>regex</th>
+      <td>110</td>
+      <td>11</td>
+      <td>16</td>
+      <td>87.30</td>
+    </tr>
+    <tr>
+      <th>api</th>
+      <td>125</td>
+      <td>1</td>
+      <td>1</td>
+      <td>99.21</td>
+    </tr>
+    <tr>
+      <th>gpt56</th>
+      <td>123</td>
+      <td>3</td>
+      <td>3</td>
+      <td>97.62</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Since the api used GPT5.2 medium, we interprete the results as: GPT5.2 is good enough for the informaiton extraction and correction.</p>
+</section>
+</section>
+<section id="conclusion">
+<h2>11. 🍀 Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">¶</a></h2>
+<p>To extract required data from Youtube videos, we can follow the procedures:</p>
+<ul class="simple">
+<li><p>YouTube video
+↓</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">yt-dlp</span></code> to download audio
+↓</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">KBLab/kb-whisper-medium</span></code> to transcribe speech
+↓</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AI</span></code> to correct transcript</p></li>
+</ul>
+<section id="note">
+<h3>Note<a class="headerlink" href="#note" title="Link to this heading">¶</a></h3>
+<p>Even when we use exactly the same model, procedure, and parameters, repeated runs may still produce slightly different results.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./tool"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="../tool.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Tools</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Extract words from YouTube videos</a><ul>
+<li><a class="reference internal" href="#create-and-activate-a-python-environment">1. 🍀 Create and activate a Python environment</a></li>
+<li><a class="reference internal" href="#install-the-required-tools">2. 🍀 Install the required tools</a><ul>
+<li><a class="reference internal" href="#why-these-tools-are-needed">Why these tools are needed</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#download-only-the-audio">3. 🍀 Download only the audio</a><ul>
+<li><a class="reference internal" href="#explanation-of-the-options">Explanation of the options</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#confirm-that-the-audio-file-exists">4. 🍀 Confirm that the audio file exists</a></li>
+<li><a class="reference internal" href="#transcribe-swedish-speech-with-kb-whisper-medium">5. 🍀 Transcribe Swedish speech with KB-Whisper Medium</a><ul>
+<li><a class="reference internal" href="#inspect-the-returned-object">Inspect the returned object</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#store-the-timestamped-transcript-in-a-dataframe">6. 🍀 Store the timestamped transcript in a DataFrame</a></li>
+<li><a class="reference internal" href="#method-1-extract-words-with-a-regular-expression">7. 🍀 Method 1 — extract words with a regular expression</a><ul>
+<li><a class="reference internal" href="#how-the-regular-expression-works">7.1 How the regular expression works</a></li>
+<li><a class="reference internal" href="#create-the-two-column-regex-dataframe">7.2 Create the two-column regex DataFrame</a></li>
+<li><a class="reference internal" href="#limitation-of-the-regex-method">Limitation of the regex method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#method-2-extract-and-normalize-words-with-the-openai-api">8. 🍀 Method 2 — extract and normalize words with the OpenAI API</a><ul>
+<li><a class="reference internal" href="#store-the-api-key-safely">8.1 Store the API key safely</a></li>
+<li><a class="reference internal" href="#define-the-required-structured-output">8.2 Define the required structured output</a></li>
+<li><a class="reference internal" href="#send-the-complete-transcript-to-the-api">8.3 Send the complete transcript to the API</a></li>
+<li><a class="reference internal" href="#convert-the-detailed-result-to-a-review-dataframe">8.4 Convert the detailed result to a review DataFrame</a></li>
+<li><a class="reference internal" href="#review-uncertain-words">8.5 Review uncertain words</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#alternative-3-send-the-transcript-to-ai-apps-directly">9. 🍀 Alternative 3: Send the transcript to AI apps directly</a></li>
+<li><a class="reference internal" href="#comparision">10. 🍀 Comparision</a><ul>
+<li><a class="reference internal" href="#import-the-manually-corrected-data">10.1 Import the manually corrected data</a></li>
+<li><a class="reference internal" href="#combine-dataframes">10.2 Combine dataframes</a></li>
+<li><a class="reference internal" href="#prepare-data-for-visualisation">10.3 Prepare data for visualisation</a></li>
+<li><a class="reference internal" href="#heatmap-visualisation">10.4 Heatmap visualisation</a></li>
+<li><a class="reference internal" href="#accuracy">10.5 Accuracy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion">11. 🍀 Conclusion</a><ul>
+<li><a class="reference internal" href="#note">Note</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
+</html>

@@ -7,9 +7,9 @@ from mathematical intuition, to Python implementation, to practical interpretati
 
 ---
 
-## [ML & Statistics](ml_stat.md)
+## [ML algorithms](ml_stat.md)
 
-Foundational concepts in probability, statistics, and machine learning, explained through examples and code.
+Foundational concepts and algorithms in probability, statistics, and machine learning, explained through examples and code.
 
 Topics include Bayes, Naive Bayes, Mann–Whitney U, regression, classification, and later my own research methods such as Camp Chain.
 
@@ -30,6 +30,10 @@ Visualization techniques for exploring, analyzing, and communicating data clearl
 ## [Interview Case Studies](caseStudy.md)
 
 Real interview-style case studies covering the full data analysis workflow: data cleaning, visualization, statistical reasoning, modeling, and insight generation.
+
+## [AI tools](tool.md)
+
+This section collets daily life AI tools for fun projects.
 
 ---
 
