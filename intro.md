@@ -1,22 +1,51 @@
-# Welcome to Chang's WikiScratch
+# Chang Liu – Data Lab
 
-Welcome to my personal 'WikiScratch,' dedicated to documenting engaging topics in data science and machine learning (ML). This webpage serves as my personal repository, and I hope it proves valuable to others as well. Most algorithms are constructed from fundamental mathematical principles and linear algebra, providing insights into the underlying processes.
+Welcome to my **Data Lab** — a personal knowledge space for machine learning, statistics, data visualization, geospatial analysis, and real-world data case studies.
 
-## [ML basics](mlBasics.md)
+This site documents how I learn, test, and explain data science concepts from first principles:  
+from mathematical intuition, to Python implementation, to practical interpretation.
 
-While readily available packages exist for most cases, like Principal Component Analysis, I find it more intriguing to implement these algorithms from scratch.
+---
 
-## [Data Visualisation](dataVisualisation.md)
+## [ML algorithms](ml_stat.md)
 
-Given the positive feedback on my data visualization skills from peers and colleagues, I will showcase some of my visualizations and explain the techniques behind them.
+Foundational concepts and algorithms in probability, statistics, and machine learning, explained through examples and code.
 
-## [Statistical Tests](statisticalTests.md)
+Topics include Bayes, Naive Bayes, Mann–Whitney U, regression, classification, and later my own research methods such as Camp Chain.
 
-This section covers both mathematical calculations and the visualization of results.
+---
 
-## [Deep Learning](deepLearning.md)
+## [Geo Analysis](geo.md)
 
-Explore various entertaining deep learning applications, such as neural style transfer, which captivate my interest. Before a full understanding is achieved, these fun examples will be duplicated here as part of my to-study list.
+Projects using GPS and geospatial data to analyze movement patterns, coordinate systems, and spatial information.
 
-Check out the content pages bundled with this WikiScratch to explore more.
+---
 
+## [Data Visualization](visual.md)
+
+Visualization techniques for exploring, analyzing, and communicating data clearly and effectively.
+
+---
+
+## [Interview Case Studies](caseStudy.md)
+
+Real interview-style case studies covering the full data analysis workflow: data cleaning, visualization, statistical reasoning, modeling, and insight generation.
+
+## [AI tools](tool.md)
+
+This section collets daily life AI tools for fun projects.
+
+---
+
+## 💡 About
+
+I am a data analyst and algorithm engineer with a Ph.D. background in geological and hydraulic engineering.
+
+My work combines large datasets, statistical modeling, machine learning, simulation data, and engineering interpretation.
+
+This lab reflects my approach:
+
+→ understand deeply  
+→ build from scratch  
+→ explain clearly  
+→ apply to real data

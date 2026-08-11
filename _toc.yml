@@ -1,23 +1,49 @@
-# Table of contents
-# Learn more at https://jupyterbook.org/customize/toc.html
-
+# _toc.yml
 format: jb-book
 root: intro
 chapters:
-- file: mlBasics
-  sections:
-  - file: pca
 
-- file: dataVisualisation
+- file: ml_stat
   sections:
-  - file: heatMap4purchasingData
+  - file: ml_NaiveBayes.ipynb
+  - file: stat_MannWhitneyU.ipynb
+  #   sections:
+  #   - file: ml_NaiveBayes.ipynb
+  #   - file: ml_LinearRegression.ipynb
+  #   - file: ml_LogisticRegression.ipynb
+  #   - file: ml_DecisionTrees.ipynb
 
-- file: statisticalTests
+  # - file: ml_statistical_methods
+  #   sections:
+  #   - file: stat_MannWhitneyU.ipynb
+    # - file: stat_ANOVA.ipynb
+    # - file: stat_Bootstrap.ipynb
+
+  # - file: ml_advanced
+  #   sections:
+    # - file: ml_Attention.ipynb
+    # - file: ml_Transformers.ipynb
+    # - file: ml_LLM.ipynb
+
+  # - file: ml_research
+  #   sections:
+    # - file: research_CampChain.ipynb
+    # - file: research_PKMA.ipynb
+    # - file: research_LinearGaussianTransformation.ipynb
+
+- file: geo
   sections:
-  - file: mannWhitneyUtest.ipynb
-  - file: caseStudyAppostrophe.ipynb
+  - file: geo_gps_uppsala.ipynb
 
-- file: deepLearning
+- file: visual
   sections:
-  - file: neuralStyleTransfer.ipynb
+  - file: visual_heatMap
 
+- file: caseStudy
+  sections:
+  - file: cs_Appostrophe.ipynb
+
+- file: tool
+  sections:
+    - file: tool/tool_transcribe_youtube.ipynb
+    - file: tool/tool_image_generation_model_comparison.ipynb
