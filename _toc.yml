@@ -42,6 +42,7 @@ chapters:
 - file: caseStudy
   sections:
   - file: cs_Appostrophe.ipynb
+  - file: cs_earth_observation_water_wetlands.ipynb
 
 - file: tool
   sections:
