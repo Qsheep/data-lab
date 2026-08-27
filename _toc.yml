@@ -34,6 +34,7 @@ chapters:
 - file: geo
   sections:
   - file: geo_gps_uppsala.ipynb
+  - file: geo_earth_observation_water_wetlands.ipynb
 
 - file: visual
   sections:
@@ -42,7 +43,6 @@ chapters:
 - file: caseStudy
   sections:
   - file: cs_Appostrophe.ipynb
-  - file: cs_earth_observation_water_wetlands.ipynb
 
 - file: tool
   sections:
