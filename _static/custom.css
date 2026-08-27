@@ -1,7 +1,322 @@
-/* Adjust width of the left sidebar */
-.bd-sidebar {
-  width: 150px; /* Adjust the width as needed */
+/* =========================================================
+   Chang's Data Lab
+   PyData Sphinx Theme customisation
+   ========================================================= */
+
+
+/* =========================================================
+   1. GLOBAL PAGE LAYOUT
+   ========================================================= */
+
+.bd-page-width {
+    max-width: none !important;
 }
-.bd-main .bd-content .bd-article-container {
-  max-width: 100%;  /* default is 60em */
+
+.bd-main,
+.bd-content {
+    max-width: none !important;
+    min-width: 0 !important;
+}
+
+
+/* =========================================================
+   2. LEFT SIDEBAR
+   ========================================================= */
+
+.bd-sidebar-primary {
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 240px !important;
+}
+
+/* Compact inner spacing */
+.bd-sidebar-primary .sidebar-primary-items__start,
+.bd-sidebar-primary .sidebar-primary-items__end,
+.bd-sidebar-primary .sidebar-header-items {
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
+}
+
+/* Logo */
+.bd-sidebar-primary .navbar-brand img {
+    max-width: 160px;
+    height: auto;
+}
+
+/* Navigation text */
+.bd-sidebar-primary .nav {
+    font-size: 0.88rem;
+}
+
+
+/* =========================================================
+   3. RIGHT TABLE OF CONTENTS
+   ========================================================= */
+
+.bd-sidebar-secondary {
+    width: 260px ;
+    min-width: 220px ;
+    max-width: 280px ;
+    margin: 0 !important;
+}
+
+/* Let the inner TOC use the entire sidebar width */
+.bd-sidebar-secondary .sidebar-secondary-items {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    padding-left: 0rem !important;
+    padding-right: 0rem !important;
+
+    box-sizing: border-box !important;
+}
+
+/* Remove inner width restrictions */
+.bd-sidebar-secondary nav,
+.bd-sidebar-secondary .page-toc,
+.bd-sidebar-secondary .toc-h2,
+.bd-sidebar-secondary .toc-h3,
+.bd-sidebar-secondary .toc-h4 {
+    width: 100% !important;
+}
+
+.bd-sidebar-secondary .sidebar-secondary-items,
+.bd-sidebar-secondary .sidebar-secondary-items a {
+    font-size: 0.82rem !important;
+}
+
+
+/* =========================================================
+   4. MAIN ARTICLE
+   ========================================================= */
+
+.bd-article-container {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    min-height: calc(100vh - 120px);
+}
+
+.bd-article {
+    width: auto !important;
+    max-width: 100% !important;
+    flex: 0 0 auto !important;
+}
+
+
+/* =========================================================
+   5. NOTEBOOK OUTPUTS
+   ========================================================= */
+
+.bd-article img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Plotly writes a fixed pixel width into each output div. Override that
+   inline value so responsive figures use the full article column instead. */
+.cell,
+.cell_output,
+.cell_output .output,
+.cell_output .output.text_html,
+.cell_output .output.text_html > div {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.cell_output .output.text_html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.cell_output .plotly-graph-div {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+
+/* =========================================================
+   6. PREVIOUS / NEXT POSITION
+   ========================================================= */
+
+/*
+.bd-article and .prev-next-footer are siblings inside
+.bd-article-container.
+
+Because the container is a vertical flexbox,
+margin-top: auto consumes the unused vertical space.
+*/
+
+.prev-next-footer {
+    margin-top: auto !important;
+}
+
+
+/* =========================================================
+   7. PREVIOUS / NEXT STYLE
+   ========================================================= */
+
+.prev-next-area {
+    margin-top: 2rem !important;
+
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+/* Previous / Next labels */
+.prev-next-area .prev-next-subtitle {
+    margin-bottom: 0.15rem !important;
+
+    font-size: 0.72rem !important;
+    font-weight: 400 !important;
+    color: #64748b;
+}
+
+/* Page title links */
+.prev-next-area .prev-next-title,
+.prev-next-area a {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+}
+
+/* Navigation arrows */
+.prev-next-area svg,
+.prev-next-area i {
+    font-size: 0.8rem !important;
+}
+
+
+/* =========================================================
+   8. NOTEBOOK CELLS
+   Visual styling only — do not control output dimensions here
+   ========================================================= */
+
+.cell {
+    width: 100%;
+    margin: 1rem 0;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    background: #ffffff;
+}
+
+/* Code input */
+.cell_input {
+    padding: 0.3rem !important;
+
+    border: none !important;
+    background: #f8fafc !important;
+}
+
+.cell_input pre,
+.cell_input code {
+    font-size: 0.88rem !important;
+    line-height: 1.2 !important;
+}
+
+/* Output */
+.cell_output {
+    width: 100%;
+    padding: 0 !important;
+
+    border-top: 1px solid #eef2f7;
+    background: #ffffff;
+}
+
+/* Toggle */
+.toggle-button {
+    border-radius: 8px !important;
+}
+
+
+/* =========================================================
+   9. TABLES
+   ========================================================= */
+
+.bd-article table {
+    width: 100%;
+
+    margin: 1rem 0;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    overflow: hidden;
+
+    font-size: 0.92rem;
+}
+
+/* Header */
+.bd-article table thead th {
+    padding: 0.75rem 0.9rem;
+
+    background: #f8fafc;
+
+    border-bottom: 1px solid #dfe5ec;
+
+    font-weight: 600;
+    text-align: left;
+}
+
+/* Body */
+.bd-article table tbody td {
+    padding: 0.7rem 0.9rem;
+
+    border-bottom: 1px solid #eef2f7;
+}
+
+.bd-article table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.bd-article table tbody tr:hover {
+    background: #fafcff;
+}
+
+.bd-article .table-wrapper {
+    overflow-x: auto;
+}
+
+
+/* =========================================================
+   10. SITE FOOTER
+   ========================================================= */
+
+/* Typography only — don't restructure page geometry here */
+.bd-footer,
+.bd-footer-content,
+.bd-footer .footer-item {
+    font-size: 0.72rem !important;
+}
+
+
+/* =========================================================
+   11. RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 960px) {
+
+    .bd-main {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    .bd-article-container {
+        max-width: 100% !important;
+        min-height: auto;
+    }
 }

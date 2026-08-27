@@ -1,272 +1,435 @@
-<!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
-  <head><meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Mann-Whitney U test" href="stat_MannWhitneyU.html"><link rel="prev" title="ML &amp; Statistics" href="ml_stat.html">
-        <link rel="prefetch" href="_static/logo.png" as="image">
 
-    <!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
-        <title>Detecting Spam Email with Bayes - Chang&#39;s Data Lab</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Detecting Spam Email with Bayes &#8212; Chang&#39;s Data Lab</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="_static/proof.css?v=8c6b312c" />
+    <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=fea192d9" />
-    
-    
-
-
-<style>
-  body {
-    --color-code-background: #eeffcc;
-  --color-code-foreground: black;
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=08d023c0" />
   
-  }
-  @media not print {
-    body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ml_NaiveBayes';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/plotly-responsive.js?v=e4c3ff2d"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mann-Whitney U test" href="stat_MannWhitneyU.html" />
+    <link rel="prev" title="ML &amp; Statistics" href="ml_stat.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
   
-    }
-    @media (prefers-color-scheme: dark) {
-      body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
   
-      }
-    }
-  }
-</style></head>
-  <body>
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
     
-    <script>
-      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
-    </script>
-    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
 
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="svg-toc" viewBox="0 0 24 24">
-    <title>Contents</title>
-    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
-      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
-    </svg>
-  </symbol>
-  <symbol id="svg-menu" viewBox="0 0 24 24">
-    <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-  </symbol>
-  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
-    <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
-      <polyline points="9 18 15 12 9 6"></polyline>
-    </svg>
-  </symbol>
-  <symbol id="svg-sun" viewBox="0 0 24 24">
-    <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-  </symbol>
-  <symbol id="svg-moon" viewBox="0 0 24 24">
-    <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-    </svg>
-  </symbol>
-  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
-    <title>Auto light/dark, in light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
-      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
-      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
-      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
-      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
-      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
-      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
-      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
-      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
-      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
-      <circle cx="14.5" cy="9.55" r="3.6"/>
-    </svg>
-  </symbol>
-  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
-    <title>Auto light/dark, in dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
-      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
-      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
-      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
-      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
-      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
-      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
-      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
-      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
-      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
-      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
-    </svg>
-  </symbol>
-  <symbol id="svg-pencil" viewBox="0 0 24 24">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
-      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
-      <path d="M13.5 6.5l4 4" />
-      <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" />
-    </svg>
-  </symbol>
-  <symbol id="svg-eye" viewBox="0 0 24 24">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-      <path
-        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
-      <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" />
-    </svg>
-  </symbol>
-</svg>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
-<label class="overlay sidebar-overlay" for="__navigation"></label>
-<label class="overlay toc-overlay" for="__toc"></label>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
 
-<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
-
-
-
-<div class="page">
-  <header class="mobile-header">
-    <div class="header-left">
-      <label class="nav-overlay-icon" for="__navigation">
-        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
-      </label>
-    </div>
-    <div class="header-center">
-      <a href="intro.html"><div class="brand">Chang's Data Lab</div></a>
-    </div>
-    <div class="header-right">
-      <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
-          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
-          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
-          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
-          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
-        </button>
-      </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
-      </label>
-    </div>
-  </header>
-  <aside class="sidebar-drawer">
-    <div class="sidebar-container">
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="intro.html">
-  <div class="sidebar-logo-container">
-    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
   </div>
   
-  <span class="sidebar-brand-text">Chang's Data Lab</span>
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
   
-</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
-  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
-  <input type="hidden" name="check_keywords" value="yes">
-  <input type="hidden" name="area" value="default">
-</form>
-<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="ml_stat.html">ML &amp; Statistics</a><input aria-label="Toggle navigation of ML &amp; Statistics" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Detecting Spam Email with Bayes</a></li>
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Chang's Data Lab - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="Chang's Data Lab - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Chang Liu – Data Lab
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="ml_stat.html">ML &amp; Statistics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Detecting Spam Email with Bayes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="stat_MannWhitneyU.html">Mann-Whitney U test</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="geo.html">Geo Analysis</a><input aria-label="Toggle navigation of Geo Analysis" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="geo.html">Geo Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="geo_gps_uppsala.html">Analys av GPS-spår (Uppsala)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo_earth_observation_water_wetlands.html">Water and wetland signals from Sentinel-2</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="visual.html">Data Visualisation</a><input aria-label="Toggle navigation of Data Visualisation" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="visual.html">Data Visualisation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="visual_heatMap.html">Heat Map for Customer Transactions</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="caseStudy.html">Interview Case study</a><input aria-label="Toggle navigation of Interview Case study" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="caseStudy.html">Interview Case study</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="cs_Appostrophe.html">Customer purchasing pattern and prediction</a></li>
 </ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tool.html">Tools</a><input aria-label="Toggle navigation of Tools" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tool.html">Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="tool/tool_transcribe_youtube.html">Extract words from YouTube videos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tool/tool_image_generation_model_comparison.html">Local image-generation model comparison for flashcards</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tool/tool_image_generation_model_comparison.html#model-comparison">5. Model comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tool/tool_image_generation_model_comparison.html#additional-experiment-flux-1-schnell">6. Additional experiment — FLUX.1-schnell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tool/tool_image_generation_model_comparison.html#compare-all-15-generated-images-and-runtimes">7. Compare all 15 generated images and runtimes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tool/tool_image_generation_model_comparison.html">Local image-generation model comparison</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 
-</div>
-</div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
 
       </div>
       
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
     </div>
-  </aside>
-  <div class="main">
-    <div class="content">
-      <div class="article-container">
-        <a href="#" class="back-to-top muted-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
-          </svg>
-          <span>Back to top</span>
-        </a>
-        <div class="content-icon-container">
-          <div class="view-this-page">
-  <a class="muted-link" href="_sources/ml_NaiveBayes.ipynb" title="View this page">
-    <svg><use href="#svg-eye"></use></svg>
-    <span class="visually-hidden">View this page</span>
-  </a>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Qsheep/data-lab" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Qsheep/data-lab/issues/new?title=Issue%20on%20page%20%2Fml_NaiveBayes.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
 </div>
-<div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
-              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
-              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
-              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
-              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
-            </button>
-          </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
-          </label>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ml_NaiveBayes.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Detecting Spam Email with Bayes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-theorem">💙 1. Bayes’ Theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-1-detecting-spam-emails-with-the-word-free">💙 2. Case Study 1: Detecting Spam Emails with the Word “free”</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-the-probabilities-needed-in-bayes-theorem">Calculating the Probabilities Needed in Bayes’ Theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-probability-p-a">🩵 2.1 Prior Probability: P(A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-p-b-a">🩵 2.2 Likelihood: P(B|A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence-p-b">🩵 2.3 Evidence: P(B)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-probability-p-a-b">🩵 2.4 Posterior Probability: P(A|B)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-case-study-1">Interpretation of Case Study 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-2-a-spam-email-classifier-with-multiple-signals">💙 3. Case Study 2: A Spam Email Classifier with Multiple Signals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🩵 3.1 Prior probability: P(A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">🩵 3.2. Likelihood: P(B|A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-it-called-naive">Why is it called <strong>Naive</strong>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">🩵 3.3 Evidence: P(B)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-calculate-p-b-when-b-contains-multiple-factors">How to calculate P(B) when B contains multiple factors</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">🩵 3.4. Posterior Probability: P(A|B)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">💙 4. Final Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-where-does-bayes-theorem-come-from">💙 Appendix: Where Does Bayes’ Theorem Come From?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-idea">Key idea</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
-        <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="detecting-spam-email-with-bayes">
-<h1>Detecting Spam Email with Bayes<a class="headerlink" href="#detecting-spam-email-with-bayes" title="Link to this heading">¶</a></h1>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="detecting-spam-email-with-bayes">
+<h1>Detecting Spam Email with Bayes<a class="headerlink" href="#detecting-spam-email-with-bayes" title="Link to this heading">#</a></h1>
 <p>Bayes’ theorem is one of the fundamental ideas in probability theory and machine learning. In this notebook, we will first explain what Bayes’ theorem means, and then use it to build a simple spam email classifier from scratch in Python.</p>
 <p>Bayesian thinking is a way of updating our belief when new evidence appears. For example, imagine you can’t find your keys. At first, you may believe they are equally likely to be in your backpack, on your desk, or in your pocket. After checking your backpack and finding nothing, you become less confident that the keys are in the backpac and more confident that they are somewhere else.</p>
 <p>A spam classifier works in a similar way. Before reading an email, we may have a general belief about how likely it is to be spam. After observing words such as <strong>“free”</strong>, <strong>“winner”</strong>, or a suspicious link, we update that belief.</p>
@@ -282,14 +445,12 @@
 </li>
 </ol>
 <section id="bayes-theorem">
-<h2>💙 1. Bayes’ Theorem<a class="headerlink" href="#bayes-theorem" title="Link to this heading">¶</a></h2>
+<h2>💙 1. Bayes’ Theorem<a class="headerlink" href="#bayes-theorem" title="Link to this heading">#</a></h2>
 <p>Mathematically, Bayes’ theorem is written as:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A \mid B)=\frac{P(B \mid A)P(A)}{P(B)}
 \]</div>
-</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><strong>P(A)</strong> is called the <strong>prior probability</strong>: our initial belief about event (A) before observing evidence.</p></li>
@@ -298,7 +459,6 @@ P(A \mid B)=\frac{P(B \mid A)P(A)}{P(B)}
 <li><p><strong>P(A | B)</strong> is the <strong>posterior probability</strong>: the updated probability of event (A) after observing evidence (B).</p></li>
 </ul>
 <p>In a spam classifier, this means:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam} \mid \text{evidence})
@@ -309,7 +469,6 @@ P(\text{evidence} \mid \text{spam})P(\text{spam})
 P(\text{evidence})
 }
 \]</div>
-</div>
 <p>The relationship can be summarized as:</p>
 <blockquote>
 <div><p><strong>Posterior = Likelihood × Prior / Evidence</strong></p>
@@ -317,7 +476,7 @@ P(\text{evidence})
 <p>Bayes’ theorem allows us to update an initial belief after observing new information. This may sound a bit abstract, let’s see what each item means through real problem.</p>
 </section>
 <section id="case-study-1-detecting-spam-emails-with-the-word-free">
-<h2>💙 2. Case Study 1: Detecting Spam Emails with the Word “free”<a class="headerlink" href="#case-study-1-detecting-spam-emails-with-the-word-free" title="Link to this heading">¶</a></h2>
+<h2>💙 2. Case Study 1: Detecting Spam Emails with the Word “free”<a class="headerlink" href="#case-study-1-detecting-spam-emails-with-the-word-free" title="Link to this heading">#</a></h2>
 <p>Suppose you receive an email saying:</p>
 <blockquote>
 <div><p>“Congratulations, you get a free gift from <em>En Språk Resa</em> for your hard work in building your Swedish vocabulary.”</p>
@@ -381,7 +540,7 @@ P(\text{evidence})
 </div></div></div>
 </div>
 <section id="calculating-the-probabilities-needed-in-bayes-theorem">
-<h3>Calculating the Probabilities Needed in Bayes’ Theorem<a class="headerlink" href="#calculating-the-probabilities-needed-in-bayes-theorem" title="Link to this heading">¶</a></h3>
+<h3>Calculating the Probabilities Needed in Bayes’ Theorem<a class="headerlink" href="#calculating-the-probabilities-needed-in-bayes-theorem" title="Link to this heading">#</a></h3>
 <p>In this first case study, we only use one signal:</p>
 <blockquote>
 <div><p>Does the email contain the word <strong>“free”</strong>?</p>
@@ -392,7 +551,6 @@ P(\text{evidence})
 <li><p>B = the email contains the word <strong>“free”</strong></p></li>
 </ul>
 <p>So the Bayes Theorem becomes</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam} \mid \text{containing free})
@@ -403,7 +561,6 @@ P(\text{containing free} \mid \text{spam})P(\text{spam})
 P(\text{containing free})
 }
 \]</div>
-</div>
 <p>We will calculate the four parts of Bayes’ theorem step by step:</p>
 <ol class="arabic simple">
 <li><p>Prior probability: P(A)</p></li>
@@ -413,7 +570,7 @@ P(\text{containing free})
 </ol>
 </section>
 <section id="prior-probability-p-a">
-<h3>🩵 2.1 Prior Probability: P(A)<a class="headerlink" href="#prior-probability-p-a" title="Link to this heading">¶</a></h3>
+<h3>🩵 2.1 Prior Probability: P(A)<a class="headerlink" href="#prior-probability-p-a" title="Link to this heading">#</a></h3>
 <p>The prior probability is our belief <strong>before reading the content of the email</strong>.</p>
 <p>From the historical data:</p>
 <ul class="simple">
@@ -421,12 +578,10 @@ P(\text{containing free})
 <li><p>Total emails = 1000</p></li>
 </ul>
 <p>Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A)=P(\text{spam})=\frac{200}{1000}=0.20
 \]</div>
-</div>
 <p>This means that before observing any word in the email, we believe there is a <strong>20% chance</strong> that a randomly received email is spam.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -445,7 +600,7 @@ P(A)=P(\text{spam})=\frac{200}{1000}=0.20
 </div>
 </section>
 <section id="likelihood-p-b-a">
-<h3>🩵 2.2 Likelihood: P(B|A)<a class="headerlink" href="#likelihood-p-b-a" title="Link to this heading">¶</a></h3>
+<h3>🩵 2.2 Likelihood: P(B|A)<a class="headerlink" href="#likelihood-p-b-a" title="Link to this heading">#</a></h3>
 <p>The likelihood asks:</p>
 <blockquote>
 <div><p>If an email is spam, how likely is it to contain the word <strong>“free”</strong>?</p>
@@ -456,7 +611,6 @@ P(A)=P(\text{spam})=\frac{200}{1000}=0.20
 <li><p>Total spam emails = 200</p></li>
 </ul>
 <p>Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|A)=P(\text{free}|\text{spam})
@@ -465,7 +619,6 @@ P(B|A)=P(\text{free}|\text{spam})
 =
 0.60
 \]</div>
-</div>
 <p>This means that <strong>60%</strong> of spam emails contain the word <strong>“free”</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -483,7 +636,7 @@ P(B|A)=P(\text{free}|\text{spam})
 </div>
 </section>
 <section id="evidence-p-b">
-<h3>🩵 2.3 Evidence: P(B)<a class="headerlink" href="#evidence-p-b" title="Link to this heading">¶</a></h3>
+<h3>🩵 2.3 Evidence: P(B)<a class="headerlink" href="#evidence-p-b" title="Link to this heading">#</a></h3>
 <p>The evidence is the overall probability of observing the word <strong>“free”</strong>, regardless of whether the email is spam or not.</p>
 <p>From the whole dataset:</p>
 <ul class="simple">
@@ -491,12 +644,10 @@ P(B|A)=P(\text{free}|\text{spam})
 <li><p>Total emails = 1000</p></li>
 </ul>
 <p>Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)=P(\text{free})=\frac{160}{1000}=0.16
 \]</div>
-</div>
 <p>This means that <strong>16%</strong> of all emails contain the word <strong>“free”</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -514,18 +665,15 @@ P(B)=P(\text{free})=\frac{160}{1000}=0.16
 </div>
 </section>
 <section id="posterior-probability-p-a-b">
-<h3>🩵 2.4 Posterior Probability: P(A|B)<a class="headerlink" href="#posterior-probability-p-a-b" title="Link to this heading">¶</a></h3>
+<h3>🩵 2.4 Posterior Probability: P(A|B)<a class="headerlink" href="#posterior-probability-p-a-b" title="Link to this heading">#</a></h3>
 <p>Now we calculate the updated probability that the email is spam after observing that it contains the word <strong>“free”</strong>.</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A|B)
 =
 \frac{P(B|A)P(A)}{P(B)}
 \]</div>
-</div>
 <p>Substituting the numbers:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|\text{free})
@@ -536,7 +684,6 @@ P(\text{spam}|\text{free})
 =
 0.75
 \]</div>
-</div>
 <p>Therefore,</p>
 <blockquote>
 <div><p>If a new email contains the word <strong>“free”</strong>, there is a <strong>75% probability</strong> that it is spam.</p>
@@ -556,21 +703,17 @@ P(\text{spam}|\text{free})
 </div>
 </section>
 <section id="interpretation-of-case-study-1">
-<h3>Interpretation of Case Study 1<a class="headerlink" href="#interpretation-of-case-study-1" title="Link to this heading">¶</a></h3>
+<h3>Interpretation of Case Study 1<a class="headerlink" href="#interpretation-of-case-study-1" title="Link to this heading">#</a></h3>
 <p>Before reading the email, the probability that it was spam was only:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam})=20\%
 \]</div>
-</div>
 <p>After observing the word <strong>“free”</strong> in the new email, the probability increased to:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|\text{free})=75\%
 \]</div>
-</div>
 <p>This is the core idea of Bayes’ theorem:</p>
 <blockquote>
 <div><p>New evidence updates our belief.</p>
@@ -580,7 +723,7 @@ P(\text{spam}|\text{free})=75\%
 </section>
 <hr class="docutils" />
 <section id="case-study-2-a-spam-email-classifier-with-multiple-signals">
-<h2>💙 3. Case Study 2: A Spam Email Classifier with Multiple Signals<a class="headerlink" href="#case-study-2-a-spam-email-classifier-with-multiple-signals" title="Link to this heading">¶</a></h2>
+<h2>💙 3. Case Study 2: A Spam Email Classifier with Multiple Signals<a class="headerlink" href="#case-study-2-a-spam-email-classifier-with-multiple-signals" title="Link to this heading">#</a></h2>
 <p>Now suppose we receive another email:</p>
 <blockquote>
 <div><p>“You are a winner! Click this link to get your free gift. https://www.ensprakresa.com/”</p>
@@ -660,7 +803,7 @@ P(\text{spam}|\text{free})=75\%
 </div></div></div>
 </div>
 <section id="id1">
-<h3>🩵 3.1 Prior probability: P(A)<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<h3>🩵 3.1 Prior probability: P(A)<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>Before reading the content of a new email, we only know the overall proportion of spam emails in our historical dataset.</p>
 <p>From the training data:</p>
 <ul class="simple">
@@ -668,12 +811,10 @@ P(\text{spam}|\text{free})=75\%
 <li><p>Total emails = 1000</p></li>
 </ul>
 <p>Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A) = P(\text{spam})=\frac{200}{1000}=0.20
 \]</div>
-</div>
 <p>This means that before observing any evidence, we believe there is a <strong>20% chance</strong> that a randomly received email is spam. This step is exactly the same as in 2.1.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -692,27 +833,22 @@ P(A) = P(\text{spam})=\frac{200}{1000}=0.20
 </div>
 </section>
 <section id="id2">
-<h3>🩵 3.2. Likelihood: P(B|A)<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<h3>🩵 3.2. Likelihood: P(B|A)<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>Instead of one piece of evidence as in Case Study 1, we now have <strong>three pieces of evidence</strong>. We treat them as one combined event:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 B=\{\text{free},\text{winner},\text{link}\}
 \]</div>
-</div>
 <p>Our goal is still to compute</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|B).
 \]</div>
-</div>
 <p>The likelihood asks:</p>
 <blockquote>
 <div><p>If the email is spam, how likely is it to contain all three features?</p>
 </div></blockquote>
 <p>From the historical dataset:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{free}|\text{spam})
@@ -721,8 +857,6 @@ P(\text{free}|\text{spam})
 =
 0.60
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{winner}|\text{spam})
@@ -731,8 +865,6 @@ P(\text{winner}|\text{spam})
 =
 0.40
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{link}|\text{spam})
@@ -741,7 +873,6 @@ P(\text{link}|\text{spam})
 =
 0.75
 \]</div>
-</div>
 <p>Using the <strong>Naive Bayes assumption</strong>, we assume that the features are <strong>conditionally independent</strong>.</p>
 <p>This means that <strong>after we already know whether the email is Spam or Not Spam</strong>, the presence of one feature does not affect the probability of another feature.</p>
 <p>What does this mean?</p>
@@ -754,7 +885,6 @@ P(\text{link}|\text{spam})
 </ul>
 <p>do not influence one another.</p>
 <p>Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|\text{spam})
@@ -765,8 +895,6 @@ P(\text{winner}|\text{spam})
 \times
 P(\text{link}|\text{spam})
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|\text{spam})
@@ -775,7 +903,6 @@ P(B|\text{spam})
 =
 0.18
 \]</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">P_free_given_spam</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Email type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Spam&quot;</span><span class="p">,</span> <span class="s1">&#39;Containing &quot;free&quot;&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">spam_emails_count</span>
@@ -794,7 +921,7 @@ P(B|\text{spam})
 </div>
 </section>
 <section id="why-is-it-called-naive">
-<h3>Why is it called <strong>Naive</strong>?<a class="headerlink" href="#why-is-it-called-naive" title="Link to this heading">¶</a></h3>
+<h3>Why is it called <strong>Naive</strong>?<a class="headerlink" href="#why-is-it-called-naive" title="Link to this heading">#</a></h3>
 <p>The assumption above is <strong>not completely true</strong> in real life.</p>
 <p>For example, in spam emails,</p>
 <ul class="simple">
@@ -815,7 +942,6 @@ P(B|\text{spam})
 <p>This extra condition (“given the email is spam”) is why the assumption is called <strong>conditional independence</strong>.</p>
 <p>However, let’s continue to calculate the likelihood for non-spam emails for the convenience of the next step..</p>
 <p>For not spam emails:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{free}|\text{not spam})
@@ -824,8 +950,6 @@ P(\text{free}|\text{not spam})
 =
 0.05
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{winner}|\text{not spam})
@@ -834,8 +958,6 @@ P(\text{winner}|\text{not spam})
 =
 0.0125
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{link}|\text{not spam})
@@ -844,9 +966,7 @@ P(\text{link}|\text{not spam})
 =
 0.125
 \]</div>
-</div>
 <p>Likewise,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|\text{not spam})
@@ -857,8 +977,6 @@ P(\text{winner}|\text{not spam})
 \times
 P(\text{link}|\text{not spam})
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|\text{not spam})
@@ -867,7 +985,6 @@ P(B|\text{not spam})
 =
 0.000078125
 \]</div>
-</div>
 <blockquote>
 <div><p>The email pattern <strong>“free + winner + link”</strong> is much more common in spam emails than in normal emails.</p>
 </div></blockquote>
@@ -891,7 +1008,7 @@ P(B|\text{not spam})
 </div>
 </section>
 <section id="id3">
-<h3>🩵 3.3 Evidence: P(B)<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<h3>🩵 3.3 Evidence: P(B)<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>The evidence is the overall probability of observing all the three features together:</p>
 <ul class="simple">
 <li><p>contains <strong>“free”</strong></p></li>
@@ -907,22 +1024,18 @@ P(B|\text{not spam})
 <blockquote>
 <div><p>Why can’t I simply calculate</p>
 </div></blockquote>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)=P(\text{free})P(\text{winner})P(\text{link})
 \]</div>
-</div>
 <p>or</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B) = 1- P(\text{non-free})P(\text{non-winner})P(\text{non-link})
 \]</div>
-</div>
 <p>However, this would assume that <strong>free</strong>, <strong>winner</strong>, and <strong>link</strong> are independent across all emails. That is usually not true. In real spam emails, these features are often correlated: an email containing <strong>“winner”</strong> is also more likely to contain <strong>“free”</strong> and a suspicious link.</p>
 <section id="how-to-calculate-p-b-when-b-contains-multiple-factors">
-<h4>How to calculate P(B) when B contains multiple factors<a class="headerlink" href="#how-to-calculate-p-b-when-b-contains-multiple-factors" title="Link to this heading">¶</a></h4>
+<h4>How to calculate P(B) when B contains multiple factors<a class="headerlink" href="#how-to-calculate-p-b-when-b-contains-multiple-factors" title="Link to this heading">#</a></h4>
 <p>Instead, we calculate the evidence P(B) by considering both possible classes in this example:</p>
 <ul class="simple">
 <li><p>Spam</p></li>
@@ -937,7 +1050,6 @@ P(B) = 1- P(\text{non-free})P(\text{non-winner})P(\text{non-link})
 </pre></div>
 </div>
 <p>Therefore, the total probability of observing the evidence is:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)
@@ -946,16 +1058,12 @@ P(B\cap \text{spam})
 +
 P(B\cap \text{not spam})
 \]</div>
-</div>
 <p>Using the conditional probability identity</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A\cap B)=P(B|A)P(A) = P(A|B)P(B),
 \]</div>
-</div>
 <p>Even though we can also write</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)
@@ -964,9 +1072,7 @@ P(\text{spam}|B)P(B)
 +
 P(\text{not spam}|B)P(B)
 \]</div>
-</div>
 <p>but each items in this equation is not easy to calculate. So we use:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)
@@ -975,36 +1081,26 @@ P(B|\text{spam})P(\text{spam})
 +
 P(B|\text{not spam})P(\text{not spam})
 \]</div>
-</div>
 <p>This is <strong>not another application of Bayes’ theorem</strong>. It is the <strong>Law of Total Probability</strong>. We are simply adding the contribution from each possible class.</p>
 <p>From the previous steps:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|\text{spam})=0.18
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|\text{not spam})=0.000078125
 \]</div>
-</div>
 <p>and</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam})=0.20
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{not spam})=0.80
 \]</div>
-</div>
 <p>Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)
@@ -1013,13 +1109,10 @@ P(B)
 +
 0.000078125\times0.80
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B)=0.0360625
 \]</div>
-</div>
 <p>This means that approximately <strong>3.61% of all incoming emails</strong> contain all three features simultaneously.</p>
 <blockquote>
 <div><p>The evidence P(B) works as the normalizing denominator in Bayes’ theorem. It makes sure that the posterior probabilities across all classes sum to 1.</p>
@@ -1040,9 +1133,8 @@ P(B)=0.0360625
 </section>
 </section>
 <section id="id4">
-<h3>🩵 3.4. Posterior Probability: P(A|B)<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<h3>🩵 3.4. Posterior Probability: P(A|B)<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <p>Finally, Bayes’ theorem updates our belief.</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|B)
@@ -1053,9 +1145,7 @@ P(B|\text{spam})P(\text{spam})
 P(B)
 }
 \]</div>
-</div>
 <p>Substituting the numbers:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|B)
@@ -1063,15 +1153,12 @@ P(\text{spam}|B)
 \frac{0.18\times0.20}
 {0.0360625}
 \]</div>
-</div>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|B)
 =
 0.9983
 \]</div>
-</div>
 <p>Therefore,</p>
 <blockquote>
 <div><p>There is approximately a <strong>99.83% probability</strong> that this email is spam.</p>
@@ -1092,14 +1179,12 @@ P(\text{spam}|B)
 </section>
 <hr class="docutils" />
 <section id="interpretation">
-<h3>Interpretation<a class="headerlink" href="#interpretation" title="Link to this heading">¶</a></h3>
+<h3>Interpretation<a class="headerlink" href="#interpretation" title="Link to this heading">#</a></h3>
 <p>Initially, before reading the email:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam})=20\%
 \]</div>
-</div>
 <p>After observing the three signals:</p>
 <ul class="simple">
 <li><p><strong>“free”</strong></p></li>
@@ -1107,17 +1192,15 @@ P(\text{spam})=20\%
 <li><p>suspicious link</p></li>
 </ul>
 <p>the probability becomes:</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(\text{spam}|B)=99.83\%
 \]</div>
-</div>
 <p>This is much higher than in Case Study 1, because the classifier has received more evidence.</p>
 </section>
 </section>
 <section id="final-summary">
-<h2>💙 4. Final Summary<a class="headerlink" href="#final-summary" title="Link to this heading">¶</a></h2>
+<h2>💙 4. Final Summary<a class="headerlink" href="#final-summary" title="Link to this heading">#</a></h2>
 <p>In Case Study 1, we used only one signal: the word <strong>“free”</strong>.</p>
 <ul class="simple">
 <li><p>Before reading the email, the spam probability was <strong>20%</strong>.</p></li>
@@ -1134,58 +1217,46 @@ P(\text{spam}|B)=99.83\%
 <p>This simple idea forms the foundation of many machine learning algorithms, including the Naive Bayes classifier.</p>
 </section>
 <section id="appendix-where-does-bayes-theorem-come-from">
-<h2>💙 Appendix: Where Does Bayes’ Theorem Come From?<a class="headerlink" href="#appendix-where-does-bayes-theorem-come-from" title="Link to this heading">¶</a></h2>
+<h2>💙 Appendix: Where Does Bayes’ Theorem Come From?<a class="headerlink" href="#appendix-where-does-bayes-theorem-come-from" title="Link to this heading">#</a></h2>
 <p>In order to understand the Bayes Theorem better, let’s recall the definition of <strong>conditional probability</strong>.</p>
 <p>The probability of event (A) given that event (B) has already occurred is</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A|B)=\frac{P(A\cap B)}{P(B)}.
 \]</div>
-</div>
 <p>Rearranging the equation gives</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A\cap B)=P(A|B)P(B).
 \]</div>
-</div>
 <p>Likewise, we can reverse the roles of (A) and (B):</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(B|A)=\frac{P(A\cap B)}{P(A)},
 \]</div>
-</div>
 <p>which can also be rearranged as</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A\cap B)=P(B|A)P(A).
 \]</div>
-</div>
 <p>Notice that both equations describe the <strong>same joint probability</strong> <span class="math notranslate nohighlight">\(P(A \cap B)\)</span>. Therefore,</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A|B)P(B)
 =
 P(B|A)P(A).
 \]</div>
-</div>
 <p>Finally, dividing both sides by (P(B)) gives</p>
-<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[
 P(A|B)
 =
 \frac{P(B|A)P(A)}{P(B)},
 \]</div>
-</div>
 <p>which is exactly <strong>Bayes’ theorem</strong>.</p>
 <hr class="docutils" />
 <section id="key-idea">
-<h3>Key idea<a class="headerlink" href="#key-idea" title="Link to this heading">¶</a></h3>
+<h3>Key idea<a class="headerlink" href="#key-idea" title="Link to this heading">#</a></h3>
 <p>Bayes’ theorem is <strong>not a formula that needs to be memorized</strong>.</p>
 <p>Instead, it is derived directly from the definition of conditional probability.</p>
 </section>
@@ -1211,119 +1282,132 @@ P(A|B)
     }
     </script>
     <script>kernelName = 'python3'</script>
-        </article>
-      </div>
-      <footer>
-        
-        <div class="related-pages">
-          <a class="next-page" href="stat_MannWhitneyU.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Mann-Whitney U test</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="ml_stat.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">ML &amp; Statistics</div>
-                
-              </div>
-            </a>
-        </div>
-        <div class="bottom-of-page">
-          <div class="left-details">
-            <div class="copyright">
-                Copyright &#169; 2023
-            </div>
-            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-            
-            <a href="https://github.com/pradyunsg/furo">Furo</a>
-            
-          </div>
-          <div class="right-details">
-            
-          </div>
-        </div>
-        
-      </footer>
-    </div>
-    <aside class="toc-drawer">
-      
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Detecting Spam Email with Bayes</a><ul>
-<li><a class="reference internal" href="#bayes-theorem">💙 1. Bayes’ Theorem</a></li>
-<li><a class="reference internal" href="#case-study-1-detecting-spam-emails-with-the-word-free">💙 2. Case Study 1: Detecting Spam Emails with the Word “free”</a><ul>
-<li><a class="reference internal" href="#calculating-the-probabilities-needed-in-bayes-theorem">Calculating the Probabilities Needed in Bayes’ Theorem</a></li>
-<li><a class="reference internal" href="#prior-probability-p-a">🩵 2.1 Prior Probability: P(A)</a></li>
-<li><a class="reference internal" href="#likelihood-p-b-a">🩵 2.2 Likelihood: P(B|A)</a></li>
-<li><a class="reference internal" href="#evidence-p-b">🩵 2.3 Evidence: P(B)</a></li>
-<li><a class="reference internal" href="#posterior-probability-p-a-b">🩵 2.4 Posterior Probability: P(A|B)</a></li>
-<li><a class="reference internal" href="#interpretation-of-case-study-1">Interpretation of Case Study 1</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#case-study-2-a-spam-email-classifier-with-multiple-signals">💙 3. Case Study 2: A Spam Email Classifier with Multiple Signals</a><ul>
-<li><a class="reference internal" href="#id1">🩵 3.1 Prior probability: P(A)</a></li>
-<li><a class="reference internal" href="#id2">🩵 3.2. Likelihood: P(B|A)</a></li>
-<li><a class="reference internal" href="#why-is-it-called-naive">Why is it called <strong>Naive</strong>?</a></li>
-<li><a class="reference internal" href="#id3">🩵 3.3 Evidence: P(B)</a><ul>
-<li><a class="reference internal" href="#how-to-calculate-p-b-when-b-contains-multiple-factors">How to calculate P(B) when B contains multiple factors</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id4">🩵 3.4. Posterior Probability: P(A|B)</a></li>
-<li><a class="reference internal" href="#interpretation">Interpretation</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#final-summary">💙 4. Final Summary</a></li>
-<li><a class="reference internal" href="#appendix-where-does-bayes-theorem-come-from">💙 Appendix: Where Does Bayes’ Theorem Come From?</a><ul>
-<li><a class="reference internal" href="#key-idea">Key idea</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
 
-          </div>
-        </div>
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ml_stat.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ML &amp; Statistics</p>
       </div>
-      
-      
-    </aside>
+    </a>
+    <a class="right-next"
+       href="stat_MannWhitneyU.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mann-Whitney U test</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
   </div>
-</div><script src="_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
-    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/scripts/sphinx-book-theme.js"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js?v=b8b12719"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js?v=f930bc37"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    </body>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayes-theorem">💙 1. Bayes’ Theorem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-1-detecting-spam-emails-with-the-word-free">💙 2. Case Study 1: Detecting Spam Emails with the Word “free”</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculating-the-probabilities-needed-in-bayes-theorem">Calculating the Probabilities Needed in Bayes’ Theorem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prior-probability-p-a">🩵 2.1 Prior Probability: P(A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#likelihood-p-b-a">🩵 2.2 Likelihood: P(B|A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evidence-p-b">🩵 2.3 Evidence: P(B)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#posterior-probability-p-a-b">🩵 2.4 Posterior Probability: P(A|B)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation-of-case-study-1">Interpretation of Case Study 1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-2-a-spam-email-classifier-with-multiple-signals">💙 3. Case Study 2: A Spam Email Classifier with Multiple Signals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🩵 3.1 Prior probability: P(A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">🩵 3.2. Likelihood: P(B|A)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-it-called-naive">Why is it called <strong>Naive</strong>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">🩵 3.3 Evidence: P(B)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-calculate-p-b-when-b-contains-multiple-factors">How to calculate P(B) when B contains multiple factors</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">🩵 3.4. Posterior Probability: P(A|B)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">💙 4. Final Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-where-does-bayes-theorem-come-from">💙 Appendix: Where Does Bayes’ Theorem Come From?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-idea">Key idea</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chang Liu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
