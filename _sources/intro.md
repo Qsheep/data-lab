@@ -15,7 +15,7 @@ Topics include Bayes, Naive Bayes, Mann–Whitney U, regression, classification,
 
 ---
 
-## [Geo Analysis](geo.md)
+## [Geo & Engineering](geo.md)
 
 Projects using GPS and geospatial data to analyze movement patterns, coordinate systems, and spatial information.
 

@@ -1,6 +1,6 @@
-# Geo Analysis
+# Geo and engineering
 
-This section contains my geospatial analysis projects.
+This section contains engineering analysis including geo, mechanics.
 
 ```{tableofcontents}
 ```

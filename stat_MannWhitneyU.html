@@ -38,7 +38,7 @@
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/proof.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=08d023c0" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=02d3a6f7" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -69,7 +69,7 @@
     <script src="_static/plotly-responsive.js?v=e4c3ff2d"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Geo Analysis" href="geo.html" />
+    <link rel="next" title="Geo and engineering" href="geo.html" />
     <link rel="prev" title="Detecting Spam Email with Bayes" href="ml_NaiveBayes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,9 +180,11 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Mann-Whitney U test</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="geo.html">Geo Analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="geo_gps_uppsala.html">Analys av GPS-spår (Uppsala)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geo_earth_observation_water_wetlands.html">Water and wetland signals from Sentinel-2</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="geo.html">Geo and engineering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="geo/geo_gps_uppsala.html">Analys av GPS-spår (Uppsala)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo/geo_earth_observation_water_wetlands.html">Water and wetland signals from Sentinel-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo/geo_embankment_dam_seepage_stability.html">Embankment Dam Seepage, Pore Pressure and Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo/dammsakerhet_overvakning_tillstandsbedomning.html">Dammsäkerhetsövervakning och tillståndsbedömning</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="visual.html">Data Visualisation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -469,8 +471,8 @@ Pearson’s second coefficient = 3*(mean - median)/standard deviation</p>
 <h2>Generate skewed data<a class="headerlink" href="#generate-skewed-data" title="Link to this heading">#</a></h2>
 <p>Firstly, let’s generate two skewed data samples. For example, the data in reality can the efficiency (shunt resistance, fill factor, power) of solar cells from test A and test B. The difference between group A and B can be the production machines, supttering material, or substract holders.
 Let’s use Gamma distribution to simulate the efficiencies of solar cells. The probability density for the Gamma distribution is as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1977c912-52e8-4a3e-840d-a021b2929509">
-<span class="eqno">(1)<a class="headerlink" href="#equation-1977c912-52e8-4a3e-840d-a021b2929509" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e575b47b-8098-43d4-bc49-267f2efa8edd">
+<span class="eqno">(1)<a class="headerlink" href="#equation-e575b47b-8098-43d4-bc49-267f2efa8edd" title="Permalink to this equation">#</a></span>\[\begin{equation}
       p(x) = x^{k-1}\frac{e^{-x/\theta}}{\theta^k\Gamma(k)}
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(k\)</span> is the shape and <span class="math notranslate nohighlight">\(\theta\)</span> the scale,
@@ -976,7 +978,7 @@ if (outputEl) {{
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Geo Analysis</p>
+        <p class="prev-next-title">Geo and engineering</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

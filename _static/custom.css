@@ -125,21 +125,24 @@
    inline value so responsive figures use the full article column instead. */
 .cell,
 .cell_output,
-.cell_output .output,
-.cell_output .output.text_html,
-.cell_output .output.text_html > div {
+.cell_output .output {
     min-width: 0;
     max-width: 100%;
 }
 
+/* HTML notebook outputs such as pandas DataFrames */
 .cell_output .output.text_html {
     width: 100%;
-    overflow-x: hidden;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
-.cell_output .plotly-graph-div {
-    width: 100% !important;
-    max-width: 100% !important;
+/* Allow wide HTML content to exceed the article width */
+.cell_output .output.text_html > div {
+    width: max-content;
+    min-width: 100%;
+    max-width: none;
 }
 
 
@@ -244,25 +247,39 @@ margin-top: auto consumes the unused vertical space.
    9. TABLES
    ========================================================= */
 
-.bd-article table {
-    width: 100%;
+.bd-article .cell_output .output.text_html {
+    overflow-x: auto;
+    overflow-y: hidden;
 
-    margin: 1rem 0;
+    max-width: 100%;
+    padding-bottom: 0.2rem;
+
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* Pandas DataFrame */
+.bd-article .cell_output .output.text_html table {
+    width: max-content;
+    min-width: 100%;
+    max-width: none;
+
+    margin: 0.6rem 0;
 
     border: 1px solid #e5e7eb;
-    border-radius: 10px;
+    border-radius: 8px;
 
     border-collapse: separate;
     border-spacing: 0;
 
-    overflow: hidden;
-
-    font-size: 0.92rem;
+    font-size: 0.80rem;
 }
+
 
 /* Header */
 .bd-article table thead th {
-    padding: 0.75rem 0.9rem;
+    padding: 0.45rem 0.6rem;
 
     background: #f8fafc;
 
@@ -270,25 +287,28 @@ margin-top: auto consumes the unused vertical space.
 
     font-weight: 600;
     text-align: left;
+
+    white-space: nowrap;
 }
+
 
 /* Body */
 .bd-article table tbody td {
-    padding: 0.7rem 0.9rem;
+    padding: 0.4rem 0.6rem;
 
     border-bottom: 1px solid #eef2f7;
+
+    white-space: nowrap;
 }
+
 
 .bd-article table tbody tr:last-child td {
     border-bottom: none;
 }
 
+
 .bd-article table tbody tr:hover {
     background: #fafcff;
-}
-
-.bd-article .table-wrapper {
-    overflow-x: auto;
 }
 
 
@@ -318,5 +338,14 @@ margin-top: auto consumes the unused vertical space.
     .bd-article-container {
         max-width: 100% !important;
         min-height: auto;
+    }
+
+    .bd-article table {
+        font-size: 0.82rem;
+    }
+
+    .bd-article table thead th,
+    .bd-article table tbody td {
+        padding: 0.55rem 0.65rem;
     }
 }
