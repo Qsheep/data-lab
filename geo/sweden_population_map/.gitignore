@@ -1,0 +1,6 @@
+data/*.geojson
+output/*.png
+!output/sweden_population_2025_matplotlib.png
+.venv/
+__pycache__/
+*.pyc

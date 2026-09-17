@@ -1,6 +1,0 @@
-# Statistical Tests
-
-```{tableofcontents}
-```
-
-

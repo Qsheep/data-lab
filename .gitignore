@@ -1,3 +1,12 @@
 .env
 tool/separated/
 .env
+
+# Local environments and editor/runtime caches
+**/.venv/
+**/__pycache__/
+**/.ipynb_checkpoints/
+**/.DS_Store
+
+# Rebuildable Jupyter Book cache (published HTML remains tracked)
+_build/.doctrees/

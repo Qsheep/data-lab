@@ -3,48 +3,29 @@ format: jb-book
 root: intro
 chapters:
 
-- file: ml_stat
+- file: ml_stat/ml_stat.md
   sections:
-  - file: ml_NaiveBayes.ipynb
-  - file: stat_MannWhitneyU.ipynb
-  #   sections:
-  #   - file: ml_NaiveBayes.ipynb
-  #   - file: ml_LinearRegression.ipynb
-  #   - file: ml_LogisticRegression.ipynb
-  #   - file: ml_DecisionTrees.ipynb
+  - file: ml_stat/ml_NaiveBayes.ipynb
+  - file: ml_stat/stat_MannWhitneyU.ipynb
 
-  # - file: ml_statistical_methods
-  #   sections:
-  #   - file: stat_MannWhitneyU.ipynb
-    # - file: stat_ANOVA.ipynb
-    # - file: stat_Bootstrap.ipynb
-
-  # - file: ml_advanced
-  #   sections:
-    # - file: ml_Attention.ipynb
-    # - file: ml_Transformers.ipynb
-    # - file: ml_LLM.ipynb
-
-  # - file: ml_research
-  #   sections:
-    # - file: research_CampChain.ipynb
-    # - file: research_PKMA.ipynb
-    # - file: research_LinearGaussianTransformation.ipynb
-
-- file: geo
+- file: geo/geo.md
   sections:
-  - file: geo_gps_uppsala.ipynb
-  - file: geo_earth_observation_water_wetlands.ipynb
+  - file: geo/geo_sweden_population_map.ipynb
+  - file: geo/geo_manmade_water_objects.ipynb
+  - file: geo/geo_gps_uppsala.ipynb
+  - file: geo/geo_earth_observation_water_wetlands.ipynb
+  - file: geo/geo_embankment_dam_seepage_stability.ipynb
+  - file: geo/geo_dammsakerhet_overvakning_tillstandsbedomning.ipynb
 
-- file: visual
+- file: ai_tool/ai_tool.md
   sections:
-  - file: visual_heatMap
+    - file: ai_tool/tool_transcribe_youtube.ipynb
+    - file: ai_tool/tool_image_generation_model_comparison.ipynb
 
-- file: caseStudy
+- file: cs/cs.md
   sections:
-  - file: cs_Appostrophe.ipynb
+  - file: cs/cs_Appostrophe.ipynb
 
-- file: tool
-  sections:
-    - file: tool/tool_transcribe_youtube.ipynb
-    - file: tool/tool_image_generation_model_comparison.ipynb
+# - file: visual/visual.md
+#   sections:
+#     - file: visual/visual_heatMap.ipynb

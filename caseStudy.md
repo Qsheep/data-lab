@@ -1,4 +1,0 @@
-# Interview Case study
-
-```{tableofcontents}
-```
