@@ -121,6 +121,23 @@
     height: auto;
 }
 
+/* Home-page feature visual */
+figure > a.homepage-hero {
+    display: block;
+}
+
+img.homepage-hero {
+    width: 100%;
+    border-radius: 10px;
+}
+
+figure > a.homepage-hero + figcaption {
+    max-width: 60rem;
+    margin: 0.8rem auto 0;
+    color: #66747a;
+    font-size: 0.88rem;
+}
+
 /* Plotly writes a fixed pixel width into each output div. Override that
    inline value so responsive figures use the full article column instead. */
 .cell,
@@ -143,6 +160,34 @@
     width: max-content;
     min-width: 100%;
     max-width: none;
+}
+
+/* Folium outputs are responsive Leaflet iframes, not wide tables. Restore
+   their percentage width and give the map a stable, responsive height. */
+.cell_output .output.text_html > div[style*="width:100%"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+.cell_output .output.text_html > div[style*="width:100%"] > div[style*="padding-bottom"] {
+    width: 100% !important;
+    height: clamp(420px, 56vw, 620px) !important;
+    padding-bottom: 0 !important;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.cell_output .output.text_html iframe {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (max-width: 640px) {
+    .cell_output .output.text_html > div[style*="width:100%"] > div[style*="padding-bottom"] {
+        height: 430px !important;
+    }
 }
 
 

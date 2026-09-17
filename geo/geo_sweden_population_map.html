@@ -1,0 +1,984 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sweden population spike map with GeoPandas and Matplotlib &#8212; Chang&#39;s Data Lab</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=6f08fd57" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geo/geo_sweden_population_map';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/plotly-responsive.js?v=e4c3ff2d"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HY Fysiska vatten — anlagda objekt / HY Physical Waters — Man-Made Objects" href="geo_manmade_water_objects.html" />
+    <link rel="prev" title="Geo &amp; engineering" href="geo.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Chang's Data Lab - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Chang's Data Lab - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Chang Liu – Data Lab
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ml_stat/ml_stat.html">ML &amp; Statistics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ml_stat/ml_NaiveBayes.html">Detecting Spam Email with Bayes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ml_stat/stat_MannWhitneyU.html">Mann-Whitney U test</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geo.html">Geo &amp; engineering</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Sweden population spike map with GeoPandas and Matplotlib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo_manmade_water_objects.html">HY Fysiska vatten — anlagda objekt / HY Physical Waters — Man-Made Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo_gps_uppsala.html">Analys av GPS-spår (Uppsala)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo_earth_observation_water_wetlands.html">Water and wetland signals from Sentinel-2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo_embankment_dam_seepage_stability.html">Embankment Dam Seepage, Pore Pressure and Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geo_dammsakerhet_overvakning_tillstandsbedomning.html">Dammsäkerhetsövervakning och tillståndsbedömning</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../ai_tool/ai_tool.html">AI Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../ai_tool/tool_transcribe_youtube.html">Extract words from YouTube videos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ai_tool/tool_image_generation_model_comparison.html">Local image-generation model comparison</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../cs/cs.html">Interview Case study</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cs/cs_Appostrophe.html">Customer purchasing pattern and prediction</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Qsheep/data-lab" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Qsheep/data-lab/issues/new?title=Issue%20on%20page%20%2Fgeo/geo_sweden_population_map.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/geo/geo_sweden_population_map.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sweden population spike map with GeoPandas and Matplotlib</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-scb-population-grid">1. Download the SCB population grid</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-and-inspect-the-geospatial-data">2. Read and inspect the geospatial data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-visual-encoding">3. Define the visual encoding</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sweden-population-spike-map-with-geopandas-and-matplotlib">
+<h1>Sweden population spike map with GeoPandas and Matplotlib<a class="headerlink" href="#sweden-population-spike-map-with-geopandas-and-matplotlib" title="Link to this heading">#</a></h1>
+<p>This notebook downloads Statistics Sweden’s official 2025 population grid and creates the map <strong>directly in the notebook</strong>. Every spike is plotted with Matplotlib from a 1 km² SCB grid cell.</p>
+<section id="packages">
+<h2>Packages<a class="headerlink" href="#packages" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Requests</strong> downloads the GeoJSON.</p></li>
+<li><p><strong>GeoPandas</strong> reads the geometry and handles EPSG:3006.</p></li>
+<li><p><strong>pandas</strong> provides tabular inspection through GeoPandas.</p></li>
+<li><p><strong>NumPy</strong> performs vectorised height and colour calculations.</p></li>
+<li><p><strong>Matplotlib</strong> draws the complete map and exports the high-resolution PNG.</p></li>
+<li><p><strong>Pillow</strong> creates a compact WebP copy for the Data Lab home page.</p></li>
+</ul>
+<p>Install them once with the next cell.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run this cell once if the packages are not installed.</span>
+<span class="c1"># pip install &quot;geopandas&gt;=1.0&quot; &quot;matplotlib&gt;=3.8&quot; &quot;numpy&gt;=1.26&quot; &quot;pandas&gt;=2.2&quot; &quot;requests&gt;=2.31&quot; &quot;pillow&gt;=10&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">LineCollection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearSegmentedColormap</span><span class="p">,</span> <span class="n">PowerNorm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;DejaVu Sans&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;figure.dpi&quot;</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GeoPandas:&quot;</span><span class="p">,</span> <span class="n">gpd</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pandas:&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NumPy:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GeoPandas: 1.1.4
+pandas: 3.0.5
+NumPy: 2.5.3
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="download-the-scb-population-grid">
+<h2>1. Download the SCB population grid<a class="headerlink" href="#download-the-scb-population-grid" title="Link to this heading">#</a></h2>
+<p>SCB publishes registered population on a 1 km grid. We request only total population (<code class="docutils literal notranslate"><span class="pre">beftotalt</span></code>) and geometry (<code class="docutils literal notranslate"><span class="pre">sp_geometry</span></code>) from the 2025 WFS layer, in <strong>SWEREF 99 TM / EPSG:3006</strong>. The 39 MB response is cached locally.</p>
+<p>Source: <a class="reference external" href="https://www.scb.se/en/services/open-data-api/open-geodata/grid-statistics/">Statistics Sweden — Grid statistics</a></p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">PROJECT_ROOT</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+    <span class="n">folder</span> <span class="k">for</span> <span class="n">folder</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">(),</span> <span class="o">*</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">folder</span> <span class="o">/</span> <span class="s2">&quot;geo/sweden_population_map&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">GEO_DIR</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s2">&quot;geo&quot;</span>
+<span class="n">MAP_DIR</span> <span class="o">=</span> <span class="n">GEO_DIR</span> <span class="o">/</span> <span class="s2">&quot;sweden_population_map&quot;</span>
+<span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">MAP_DIR</span> <span class="o">/</span> <span class="s2">&quot;data/scb_population_1km_2025.geojson&quot;</span>
+<span class="n">OUTPUT_PATH</span> <span class="o">=</span> <span class="n">MAP_DIR</span> <span class="o">/</span> <span class="s2">&quot;output/sweden_population_2025_matplotlib.png&quot;</span>
+<span class="n">HOMEPAGE_PNG</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s2">&quot;_static/sweden_population_spike_map_2025.png&quot;</span>
+<span class="n">HOMEPAGE_WEBP</span> <span class="o">=</span> <span class="n">PROJECT_ROOT</span> <span class="o">/</span> <span class="s2">&quot;_static/sweden_population_spike_map_2025.webp&quot;</span>
+
+<span class="n">SCB_WFS_URL</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://geodata.scb.se/geoserver/stat/wfs&quot;</span>
+    <span class="s2">&quot;?service=WFS&amp;version=1.1.0&amp;request=GetFeature&quot;</span>
+    <span class="s2">&quot;&amp;typeName=stat%3Abefolkning_1km_2025&quot;</span>
+    <span class="s2">&quot;&amp;outputFormat=application</span><span class="si">%2F</span><span class="s2">json&amp;srsName=EPSG%3A3006&quot;</span>
+    <span class="s2">&quot;&amp;propertyName=beftotalt%2Csp_geometry&quot;</span>
+<span class="p">)</span>
+<span class="n">DATA_PATH</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">OUTPUT_PATH</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">HOMEPAGE_PNG</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">DATA_PATH</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">SCB_WFS_URL</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">DATA_PATH</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">):</span>
+                <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloaded:&quot;</span><span class="p">,</span> <span class="n">DATA_PATH</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using cached data:&quot;</span><span class="p">,</span> <span class="n">DATA_PATH</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File size: </span><span class="si">{</span><span class="n">DATA_PATH</span><span class="o">.</span><span class="n">stat</span><span class="p">()</span><span class="o">.</span><span class="n">st_size</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> MB&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using cached data: /Users/changliu/Documents/data-lab/geo/sweden_population_map/data/scb_population_1km_2025.geojson
+File size: 40.5 MB
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-and-inspect-the-geospatial-data">
+<h2>2. Read and inspect the geospatial data<a class="headerlink" href="#read-and-inspect-the-geospatial-data" title="Link to this heading">#</a></h2>
+<p>GeoPandas reads every square as a polygon. We keep zero-population cells because they form the pale geographic silhouette. Cell centroids become the spike locations.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">)[[</span><span class="s2">&quot;beftotalt&quot;</span><span class="p">,</span> <span class="s2">&quot;geometry&quot;</span><span class="p">]]</span>
+<span class="k">if</span> <span class="n">grid</span><span class="o">.</span><span class="n">crs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">set_crs</span><span class="p">(</span><span class="mi">3006</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">3006</span><span class="p">)</span>
+
+<span class="n">grid</span><span class="p">[</span><span class="s2">&quot;population&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">grid</span><span class="p">[</span><span class="s2">&quot;beftotalt&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">centres</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">centroid</span>
+<span class="n">grid</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centres</span><span class="o">.</span><span class="n">x</span>
+<span class="n">grid</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centres</span><span class="o">.</span><span class="n">y</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span>
+    <span class="s2">&quot;CRS&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">crs</span><span class="p">),</span>
+    <span class="s2">&quot;grid cells&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;inhabited cells&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">population</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;total population&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;largest cell&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">grid</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CRS                  EPSG:3006
+grid cells             115,118
+inhabited cells        103,464
+total population    10,578,118
+largest cell            24,611
+dtype: str
+</pre></div>
+</div>
+</div>
+</div>
+<p>Add the län boundaries, see the boundary informaiton data from <a class="reference internal" href="geo_manmade_water_objects.html"><span class="std std-doc">the water object notebook</span></a>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lan_path</span> <span class="o">=</span> <span class="n">GEO_DIR</span> <span class="o">/</span> <span class="s2">&quot;shape_svenska_260225/LanSweref99TM.zip&quot;</span>
+<span class="n">lan</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;zip://</span><span class="si">{</span><span class="n">lan_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="define-the-visual-encoding">
+<h2>3. Define the visual encoding<a class="headerlink" href="#define-the-visual-encoding" title="Link to this heading">#</a></h2>
+<p>A linear scale would hide rural variation. The power curve below compresses the range while preserving the order of the actual data. Heights are expressed in map metres because the axes use EPSG:3006.</p>
+<div class="math notranslate nohighlight">
+\[h(p) = \min(65000,\;550 + 700p^{0.43})\]</div>
+<p>The colour scale moves from pale lavender to deep magenta. <code class="docutils literal notranslate"><span class="pre">PowerNorm</span></code> exposes variation among smaller places without losing the strongest urban cores.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Convert GeoDataFrame columns to NumPy arrays</span>
+<span class="c1"># --------------------------------------------------</span>
+
+<span class="c1"># x- and y-coordinates of the population grid cells</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># Population value in each grid cell</span>
+<span class="n">population</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Identify inhabited cells</span>
+<span class="c1"># --------------------------------------------------</span>
+
+<span class="c1"># True where population is larger than 0</span>
+<span class="n">inhabited</span> <span class="o">=</span> <span class="n">population</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Calculate the visual height of each population spike</span>
+<span class="c1"># --------------------------------------------------</span>
+
+<span class="c1"># Start with zero height everywhere</span>
+<span class="n">spike_height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+
+<span class="c1"># Use a nonlinear transformation:</span>
+<span class="c1"># - small populations still get visible spikes</span>
+<span class="c1"># - very large populations do not dominate too much</span>
+<span class="c1"># - maximum spike height is limited to 65,000 map units</span>
+<span class="n">spike_height</span><span class="p">[</span><span class="n">inhabited</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span>
+    <span class="mi">65_000</span><span class="p">,</span>
+    <span class="mi">550</span> <span class="o">+</span> <span class="mi">700</span> <span class="o">*</span> <span class="n">population</span><span class="p">[</span><span class="n">inhabited</span><span class="p">]</span> <span class="o">**</span> <span class="mf">0.43</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Swedish-inspired colour map</span>
+<span class="c1"># --------------------------------------------------</span>
+
+<span class="c1"># Inspired by Swedish blue and yellow,</span>
+<span class="c1"># with lighter blue tones between them</span>
+<span class="n">population_cmap</span> <span class="o">=</span> <span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span>
+    <span class="s2">&quot;sweden_population&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;#c9c1df&quot;</span><span class="p">,</span> <span class="s2">&quot;#b894ca&quot;</span><span class="p">,</span> <span class="s2">&quot;#d26a9d&quot;</span><span class="p">,</span> <span class="s2">&quot;#b42d72&quot;</span><span class="p">,</span> <span class="s2">&quot;#65113f&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Normalise population values for colour mapping</span>
+<span class="c1"># --------------------------------------------------</span>
+
+<span class="c1"># Use the 99.9th percentile instead of the absolute maximum</span>
+<span class="c1"># so a few extremely populated cells do not control all colours</span>
+<span class="n">population_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span>
+    <span class="n">population</span><span class="p">[</span><span class="n">inhabited</span><span class="p">],</span>
+    <span class="mf">99.9</span>
+<span class="p">)</span>
+
+<span class="c1"># PowerNorm makes lower population values more visually distinguishable</span>
+<span class="n">population_norm</span> <span class="o">=</span> <span class="n">PowerNorm</span><span class="p">(</span>
+    <span class="n">gamma</span><span class="o">=</span><span class="mf">0.34</span><span class="p">,</span>
+    <span class="n">vmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">vmax</span><span class="o">=</span><span class="n">population_max</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Assign a colour to each inhabited spike</span>
+<span class="c1"># --------------------------------------------------</span>
+<span class="n">spike_colours</span> <span class="o">=</span> <span class="n">population_cmap</span><span class="p">(</span>
+    <span class="n">population_norm</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">population</span><span class="p">[</span><span class="n">inhabited</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------</span>
+<span class="c1"># Calculate spike width</span>
+<span class="c1"># --------------------------------------------------</span>
+
+<span class="c1"># More populated cells get slightly thicker spikes</span>
+<span class="c1"># while less populated cells remain thin</span>
+<span class="n">relative_population</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span> <span class="n">population</span><span class="p">[</span><span class="n">inhabited</span><span class="p">]</span> <span class="o">/</span> <span class="n">population_max</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">spike_widths</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.14</span> <span class="o">+</span> <span class="mf">0.85</span> <span class="o">*</span> <span class="n">relative_population</span> <span class="o">**</span> <span class="mf">0.28</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Main cities and their preferred label side. Label y-positions are calculated</span>
+<span class="c1"># automatically below so labels cannot collide in the dense south.</span>
+<span class="n">cities</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;Kiruna&quot;</span><span class="p">,</span> <span class="mi">728_600</span><span class="p">,</span> <span class="mi">7_536_700</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Luleå&quot;</span><span class="p">,</span> <span class="mi">828_200</span><span class="p">,</span> <span class="mi">7_290_400</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Umeå&quot;</span><span class="p">,</span> <span class="mi">758_200</span><span class="p">,</span> <span class="mi">7_089_000</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Sundsvall&quot;</span><span class="p">,</span> <span class="mi">620_700</span><span class="p">,</span> <span class="mi">6_918_000</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Uppsala&quot;</span><span class="p">,</span> <span class="mi">648_700</span><span class="p">,</span> <span class="mi">6_637_000</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Stockholm&quot;</span><span class="p">,</span> <span class="mi">674_600</span><span class="p">,</span> <span class="mi">6_580_700</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Västerås&quot;</span><span class="p">,</span> <span class="mi">589_000</span><span class="p">,</span> <span class="mi">6_609_000</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Örebro&quot;</span><span class="p">,</span> <span class="mi">511_000</span><span class="p">,</span> <span class="mi">6_570_000</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Linköping&quot;</span><span class="p">,</span> <span class="mi">535_000</span><span class="p">,</span> <span class="mi">6_474_000</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Jönköping&quot;</span><span class="p">,</span> <span class="mi">450_000</span><span class="p">,</span> <span class="mi">6_401_000</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Göteborg&quot;</span><span class="p">,</span> <span class="mi">319_900</span><span class="p">,</span> <span class="mi">6_404_100</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Helsingborg&quot;</span><span class="p">,</span> <span class="mi">356_300</span><span class="p">,</span> <span class="mi">6_213_000</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;Malmö&quot;</span><span class="p">,</span> <span class="mi">374_400</span><span class="p">,</span> <span class="mi">6_169_900</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;side&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spread_label_positions</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">minimum_gap</span><span class="o">=</span><span class="mi">43_000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spread labels vertically while keeping them close to their cities.&quot;&quot;&quot;</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">positioned</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)[</span><span class="n">order</span><span class="p">],</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">positioned</span><span class="p">)):</span>
+        <span class="n">positioned</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">positioned</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">positioned</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">minimum_gap</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">positioned</span><span class="p">)</span> <span class="ow">and</span> <span class="n">positioned</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper</span><span class="p">:</span>
+        <span class="n">positioned</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">upper</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">positioned</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">positioned</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">positioned</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">positioned</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">minimum_gap</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">positioned</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">order</span><span class="p">]</span> <span class="o">=</span> <span class="n">positioned</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">background</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
+<span class="n">ink</span> <span class="o">=</span> <span class="s2">&quot;#26343C&quot;</span>
+<span class="n">muted</span> <span class="o">=</span> <span class="s2">&quot;#66747A&quot;</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">background</span><span class="p">)</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">(</span><span class="mf">1.55</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">),</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">layout</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">info_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">layout</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">background</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">background</span><span class="p">)</span>
+
+<span class="c1"># Editorial title panel for the Data Lab home page.</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.88</span><span class="p">,</span> <span class="s2">&quot;SWEDEN&quot;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">info_ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ink</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.805</span><span class="p">,</span> <span class="s2">&quot;POPULATION 2025&quot;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">info_ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#A92E6F&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">,</span>
+    <span class="s2">&quot;Each line rises from one 1 km² grid cell.</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;Height and colour increase with population,</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="s2">&quot;revealing Sweden&#39;s urban spine at a glance.&quot;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">info_ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">10.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">muted</span><span class="p">,</span>
+    <span class="n">linespacing</span><span class="o">=</span><span class="mf">1.55</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.565</span><span class="p">,</span> <span class="s2">&quot;POPULATION PER GRID CELL&quot;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">info_ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+             <span class="n">fontsize</span><span class="o">=</span><span class="mf">7.8</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ink</span><span class="p">)</span>
+<span class="n">legend_ax</span> <span class="o">=</span> <span class="n">info_ax</span><span class="o">.</span><span class="n">inset_axes</span><span class="p">([</span><span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.515</span><span class="p">,</span> <span class="mf">0.67</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">])</span>
+<span class="n">gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">legend_ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">population_cmap</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span><span class="p">)</span>
+<span class="n">legend_ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">511</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">muted</span><span class="p">)</span>
+<span class="n">legend_ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">legend_ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="k">for</span> <span class="n">spine</span> <span class="ow">in</span> <span class="n">legend_ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">spine</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">info_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+    <span class="mf">0.045</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">population</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1_000_000</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> million residents</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">inhabited</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> inhabited grid cells&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">Source: Statistics Sweden (SCB)</span><span class="se">\n</span><span class="s2">1 km population grid · EPSG:3006&quot;</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">info_ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">8.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">muted</span><span class="p">,</span>
+    <span class="n">linespacing</span><span class="o">=</span><span class="mf">1.55</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Quiet geographic context: counties, then every 1 km² population cell.</span>
+<span class="n">lan</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">&quot;#E8EEF0&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;#B8C5CA&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.38</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mf">0.19</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#BEB7D0&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.48</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+           <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">spike_segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">inhabited</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">inhabited</span><span class="p">]]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">inhabited</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">inhabited</span><span class="p">]</span> <span class="o">+</span> <span class="n">spike_height</span><span class="p">[</span><span class="n">inhabited</span><span class="p">]]),</span>
+<span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># A subtle underlay gives the fine spikes depth without hiding rural cells.</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">LineCollection</span><span class="p">(</span>
+    <span class="n">spike_segments</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;#FFFFFF&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">spike_widths</span> <span class="o">+</span> <span class="mf">0.55</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">capstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">LineCollection</span><span class="p">(</span>
+    <span class="n">spike_segments</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">spike_colours</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">spike_widths</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.82</span><span class="p">,</span> <span class="n">capstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">))</span>
+
+<span class="n">dense</span> <span class="o">=</span> <span class="n">population</span> <span class="o">&gt;=</span> <span class="mi">2_000</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">dense</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">dense</span><span class="p">],</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">population</span><span class="p">[</span><span class="n">dense</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2_000</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.55</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
+    <span class="n">c</span><span class="o">=</span><span class="s2">&quot;#E04A88&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Collision-free label columns with short leaders back to each city.</span>
+<span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">total_bounds</span>
+<span class="n">cities</span> <span class="o">=</span> <span class="n">cities</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">cities</span><span class="o">.</span><span class="n">side</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">side</span><span class="p">)</span>
+    <span class="n">cities</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;label_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spread_label_positions</span><span class="p">(</span>
+        <span class="n">cities</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">min_y</span> <span class="o">+</span> <span class="mi">22_000</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">-</span> <span class="mi">18_000</span>
+    <span class="p">)</span>
+<span class="n">label_x</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="n">min_x</span> <span class="o">-</span> <span class="mi">36_000</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="n">max_x</span> <span class="o">+</span> <span class="mi">36_000</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">cities</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+    <span class="n">align</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span> <span class="k">if</span> <span class="n">city</span><span class="o">.</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span> <span class="k">else</span> <span class="s2">&quot;left&quot;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">city</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">city</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#933064&quot;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">background</span><span class="p">,</span>
+               <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">city</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">city</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">city</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="n">label_x</span><span class="p">[</span><span class="n">city</span><span class="o">.</span><span class="n">side</span><span class="p">],</span> <span class="n">city</span><span class="o">.</span><span class="n">label_y</span><span class="p">),</span>
+        <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="n">align</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">7.0</span><span class="p">,</span>
+        <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">ink</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+        <span class="n">arrowprops</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;arrowstyle&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;#8B969A&quot;</span><span class="p">,</span> <span class="s2">&quot;lw&quot;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span>
+            <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s2">&quot;shrinkA&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;shrinkB&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="s2">&quot;connectionstyle&quot;</span><span class="p">:</span> <span class="s2">&quot;angle3,angleA=0,angleB=90&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">min_x</span> <span class="o">-</span> <span class="mi">112_000</span><span class="p">,</span> <span class="n">max_x</span> <span class="o">+</span> <span class="mi">112_000</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">min_y</span> <span class="o">-</span> <span class="mi">18_000</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">+</span> <span class="mi">35_000</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mf">0.035</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.985</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.965</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.035</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">OUTPUT_PATH</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">220</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">background</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">HOMEPAGE_PNG</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">220</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">background</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mf">0.16</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">HOMEPAGE_PNG</span><span class="p">)</span> <span class="k">as</span> <span class="n">image</span><span class="p">:</span>
+    <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">HOMEPAGE_WEBP</span><span class="p">,</span> <span class="s2">&quot;WEBP&quot;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<img alt="../_images/c0462874f60f255195a44864f9d5b0b3f482ec125233d464e986c0acdfd14d38.png" src="../_images/c0462874f60f255195a44864f9d5b0b3f482ec125233d464e986c0acdfd14d38.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./geo"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geo.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Geo &amp; engineering</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geo_manmade_water_objects.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">HY Fysiska vatten — anlagda objekt / HY Physical Waters — Man-Made Objects</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packages">Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-scb-population-grid">1. Download the SCB population grid</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-and-inspect-the-geospatial-data">2. Read and inspect the geospatial data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-visual-encoding">3. Define the visual encoding</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Chang Liu
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
