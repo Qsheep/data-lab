@@ -162,17 +162,21 @@ figure > a.homepage-hero + figcaption {
     max-width: none;
 }
 
-/* Folium outputs are responsive Leaflet iframes, not wide tables. Restore
-   their percentage width and give the map a stable, responsive height. */
-.cell_output .output.text_html > div[style*="width:100%"] {
-    width: 100% !important;
+/* Folium outputs are responsive Leaflet iframes, not wide tables. Folium's
+   outer div carries the requested width while its inner div uses an aspect
+   ratio. Keep that outer width instead of letting the generic HTML-output
+   rule above stretch it back to 100%, then give the map a useful fixed
+   height in the rendered book. */
+.cell_output .output.text_html > div:has(> div[style*="padding-bottom"]) {
+    width: 90% !important;
     min-width: 0 !important;
     max-width: 100% !important;
+    margin: 1rem auto !important;
 }
 
-.cell_output .output.text_html > div[style*="width:100%"] > div[style*="padding-bottom"] {
+.cell_output .output.text_html > div:has(> div[style*="padding-bottom"]) > div[style*="padding-bottom"] {
     width: 100% !important;
-    height: clamp(420px, 56vw, 620px) !important;
+    height: 500px !important;
     padding-bottom: 0 !important;
     overflow: hidden;
     border-radius: 12px;
@@ -185,7 +189,11 @@ figure > a.homepage-hero + figcaption {
 }
 
 @media (max-width: 640px) {
-    .cell_output .output.text_html > div[style*="width:100%"] > div[style*="padding-bottom"] {
+    .cell_output .output.text_html > div:has(> div[style*="padding-bottom"]) {
+        width: 100% !important;
+    }
+
+    .cell_output .output.text_html > div:has(> div[style*="padding-bottom"]) > div[style*="padding-bottom"] {
         height: 430px !important;
     }
 }
