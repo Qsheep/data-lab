@@ -1,0 +1,7 @@
+terminal,lat,lon,base_capacity,worker_capacity,max_extra_workers,worker_cost_sek
+Stockholm,59.3293,18.0686,9000,600,6,1700
+Uppsala,59.8586,17.6389,5200,520,5,1450
+Vasteras,59.6099,16.5448,4700,500,5,1380
+Sodertalje,59.1955,17.6253,4300,500,4,1360
+Orebro,59.2753,15.2134,4500,520,5,1400
+Gavle,60.6749,17.1413,3900,480,4,1320
