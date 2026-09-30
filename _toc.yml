@@ -6,6 +6,7 @@ chapters:
 - file: ml_stat/ml_stat.md
   sections:
   - file: ml_stat/ml_NaiveBayes.ipynb
+  - file: ml_stat/ml_joukowski_transformation.ipynb
   - file: ml_stat/stat_MannWhitneyU.ipynb
 
 - file: geo/geo.md
