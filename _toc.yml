@@ -18,6 +18,7 @@ chapters:
   - file: geo/geo_embankment_dam_seepage_stability.ipynb
   - file: geo/geo_dammsakerhet_overvakning_tillstandsbedomning.ipynb
   - file: geo/parcel_network_forecasting.ipynb
+  - file: geo/source_sink_uniform_flow_streamfunction.ipynb
 
 - file: ai_tool/ai_tool.md
   sections:
